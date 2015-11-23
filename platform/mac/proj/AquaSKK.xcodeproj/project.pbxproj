@@ -11,6 +11,7 @@
 		1326BC8D1BE7974B008F1D05 /* azik.conf in Resources */ = {isa = PBXBuildFile; fileRef = 1326BC8C1BE7974B008F1D05 /* azik.conf */; };
 		135A2EA01C01589300A5C6C5 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 135A2E9F1C01589300A5C6C5 /* CloudKit.framework */; };
 		135A2EA21C01593B00A5C6C5 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 135A2E9F1C01589300A5C6C5 /* CloudKit.framework */; };
+		135A2EA61C02E6AE00A5C6C5 /* MacCloudSync.mm in Sources */ = {isa = PBXBuildFile; fileRef = 135A2EA51C02E6AE00A5C6C5 /* MacCloudSync.mm */; };
 		138EA4E61BE85B2400E8A70E /* azik_us.rule in Resources */ = {isa = PBXBuildFile; fileRef = 138EA4E51BE85B2400E8A70E /* azik_us.rule */; };
 		1397AFB31BCFDD1E004A3E7D /* act.rule in Resources */ = {isa = PBXBuildFile; fileRef = 1397AFB21BCFDD1E004A3E7D /* act.rule */; };
 		13F715941BAD8AFA00F93C56 /* yakumono-ippai.rule in Resources */ = {isa = PBXBuildFile; fileRef = 13F715931BAD8AFA00F93C56 /* yakumono-ippai.rule */; };
@@ -160,6 +161,9 @@
 		135A2E9E1C01587B00A5C6C5 /* AquaSKK.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = AquaSKK.entitlements; sourceTree = "<group>"; };
 		135A2E9F1C01589300A5C6C5 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		135A2EA11C01592A00A5C6C5 /* AquaSKKPreferences.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = AquaSKKPreferences.entitlements; sourceTree = "<group>"; };
+		135A2EA31C02E4F700A5C6C5 /* SKKCloudSync.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKKCloudSync.h; sourceTree = "<group>"; };
+		135A2EA41C02E63900A5C6C5 /* MacCloudSync.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MacCloudSync.h; sourceTree = "<group>"; };
+		135A2EA51C02E6AE00A5C6C5 /* MacCloudSync.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MacCloudSync.mm; sourceTree = "<group>"; };
 		138EA4E51BE85B2400E8A70E /* azik_us.rule */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = azik_us.rule; sourceTree = "<group>"; };
 		1397AFB21BCFDD1E004A3E7D /* act.rule */ = {isa = PBXFileReference; fileEncoding = 3; lastKnownFileType = text; path = act.rule; sourceTree = "<group>"; };
 		13F715931BAD8AFA00F93C56 /* yakumono-ippai.rule */ = {isa = PBXFileReference; fileEncoding = 3; lastKnownFileType = text; path = "yakumono-ippai.rule"; sourceTree = "<group>"; };
@@ -450,6 +454,7 @@
 				D3CB86750EB47E790069107D /* SKKAnnotator.h */,
 				D376C0FA0EC728C7001B2CE9 /* SKKDynamicCompletor.h */,
 				D302E2F70EA068EF00E3321E /* SKKInputModeListener.h */,
+				135A2EA31C02E4F700A5C6C5 /* SKKCloudSync.h */,
 			);
 			name = bridge;
 			path = ../../../src/bridge;
@@ -697,6 +702,8 @@
 				D353BDD60E175513004C68A6 /* MacInputModeWindow.mm */,
 				D353BDD70E175513004C68A6 /* MacInputSessionParameter.h */,
 				D353BDD80E175513004C68A6 /* MacInputSessionParameter.mm */,
+				135A2EA41C02E63900A5C6C5 /* MacCloudSync.h */,
+				135A2EA51C02E6AE00A5C6C5 /* MacCloudSync.mm */,
 				D353BDDB0E175513004C68A6 /* ObjCUtil.h */,
 				D353BDDC0E175513004C68A6 /* SKKConstVars.h */,
 				D353BDDD0E175513004C68A6 /* SKKConstVars.mm */,
@@ -1102,6 +1109,7 @@
 				D396A0710EA0C8C600B6B9D5 /* MacMessenger.mm in Sources */,
 				D31B18100EA76F120083CD50 /* CompletionView.mm in Sources */,
 				D38FA9D20EA78A0800C07575 /* CompletionWindow.mm in Sources */,
+				135A2EA61C02E6AE00A5C6C5 /* MacCloudSync.mm in Sources */,
 				D38D61BE0EA792CB0095AAC8 /* MessengerView.mm in Sources */,
 				D3665A2B0EA8BDA90065CFD2 /* MessengerWindow.mm in Sources */,
 				D39E444F0EAB4FB300FB584C /* InputModeWindow.mm in Sources */,
