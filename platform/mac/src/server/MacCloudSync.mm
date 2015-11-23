@@ -21,6 +21,8 @@
  */
 
 #import <Foundation/Foundation.h>
+#include <algorithm>
+#include <iterator>
 #include <map>
 #import "MacCloudSync.h"
 #include "SKKCandidateSuite.h"
@@ -54,6 +56,7 @@ void MacCloudSync::Initialize(SKKDictionaryFile& dictionaryFile) {
 }
 
 void MacCloudSync::Save() {
+    NSLog(@"Save");
     save(true, dictionaryFile_->OkuriAri());
     save(false, dictionaryFile_->OkuriNasi());
 }
@@ -123,9 +126,13 @@ void MacCloudSync::update(CKRecord* record, NSString* candidates, bool okuri) {
 
 void MacCloudSync::save(bool okuri, SKKDictionaryEntryContainer& container) {
     // 全数の取得はできないので、50件づつで処理する
-    each_slice(container, 50, ^(SKKDictionaryEntryIterator from, SKKDictionaryEntryIterator to) {        CKQuery *query = buildQuery(okuri, from, to);
+    each_slice(container, 50, ^(SKKDictionaryEntryIterator from, SKKDictionaryEntryIterator to) {
+        SKKDictionaryEntryContainer tmp;
+        std::copy(from, to, std::back_inserter(tmp));
+
+        CKQuery *query = buildQuery(okuri, from, to);
         fetch(query, ^(const std::map<std::string, CKRecord*>& records) {
-            for(SKKDictionaryEntryIterator it = from; it != to; ++it) {
+            for(SKKDictionaryEntryContainer::const_iterator it = tmp.begin(); it != tmp.end(); ++it) {
                 NSString* entry = [NSString stringWithUTF8String: it->first.c_str()];
                 NSString* candidates = [NSString stringWithUTF8String: it->second.c_str()];
                 if(CKRecord* record = at(records, it->first)) {
