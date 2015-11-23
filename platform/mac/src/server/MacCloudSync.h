@@ -23,10 +23,21 @@
 #ifndef MacCloudSync_h
 #define MacCloudSync_h
 
+#import <CloudKit/CloudKit.h>
+#include <map>
+#include <string>
 #include "SKKCloudSync.h"
 
 class MacCloudSync : public SKKCloudSync {
+    CKDatabase* database_;
     SKKDictionaryFile* dictionaryFile_;
+
+    void fetch(CKQuery* query, void (^f)(const std::map<std::string, CKRecord*>& records));
+    void create(NSString* entry, NSString* candidates, bool okuri);
+    void update(CKRecord* record, NSString* candidates, bool okuri);
+    void save(bool okuri, SKKDictionaryEntryContainer& container);
+
+    CKQuery* buildQuery(bool okuri, SKKDictionaryEntryIterator from, SKKDictionaryEntryIterator to);
 
 public:
     virtual void Initialize(SKKDictionaryFile& dictionaryFile);

@@ -21,11 +21,118 @@
  */
 
 #import <Foundation/Foundation.h>
+#include <map>
 #import "MacCloudSync.h"
 
+namespace {
+    template<typename T>
+    void each_slice(T& x, int slice, void (^f)(typename T::iterator from, typename T::iterator to) ) {
+        int size = x.size();
+        for(int i = 0; i < size / 50 + 1; i++) {
+            typename T::iterator from = x.begin() + i * 50;
+            typename T::iterator to = x.begin() + MIN((i + 1)* 50, size);
+            f(from, to);
+        }
+    }
+
+    template<typename Key, typename Value>
+    Value at(const std::map<Key, Value>& data, const Key& key)
+    {
+        typename std::map<Key, Value>::const_iterator it = data.find(key);
+        if(it != data.end()) return it->second;
+        else return Value();
+    }
+}
+
 void MacCloudSync::Initialize(SKKDictionaryFile& dictionaryFile) {
+    database_ = [[CKContainer defaultContainer] privateCloudDatabase];
     dictionaryFile_ = &dictionaryFile;
 }
 
 void MacCloudSync::Save() {
+    save(true, dictionaryFile_->OkuriAri());
+    save(false, dictionaryFile_->OkuriNasi());
+}
+
+void MacCloudSync::fetch(CKQuery* query, void (^f)(const std::map<std::string, CKRecord*>& records)) {
+    [database_ performQuery:query inZoneWithID:nil completionHandler:^(NSArray *results, NSError *error) {
+        if(error) {
+            NSLog(@"[sync] fetch error: %@", error);
+        } else {
+            std::map<std::string, CKRecord*> map;
+            for(CKRecord *record in results) {
+                std::string key([[record.recordID recordName] UTF8String]);
+                map[key] = record;
+            }
+            f(map);
+        }
+    }];
+}
+
+CKQuery* MacCloudSync::buildQuery(bool okuri, SKKDictionaryEntryIterator from, SKKDictionaryEntryIterator to) {
+    NSMutableArray *xs = [[NSMutableArray alloc] init];
+    for(SKKDictionaryEntryIterator it = from; it != to; ++it) {
+        NSString* entry = [NSString stringWithUTF8String: it->first.c_str()];
+        CKRecordID* recordID = [[CKRecordID alloc] initWithRecordName:entry];
+        CKReference* reference = [[CKReference alloc] initWithRecordID:recordID action:CKReferenceActionNone];
+
+        [xs addObject: reference];
+
+        [reference release];
+        [recordID release];
+    }
+
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"okuri == %@ AND recordID in %@", okuri ? @1 : @0, xs, nil];
+    CKQuery* query = [[CKQuery alloc] initWithRecordType:@"DictionaryEntry" predicate:predicate];
+    [xs release];
+    return query;
+}
+
+void MacCloudSync::create(NSString* entry, NSString* candidates, bool okuri) {
+    if(!entry) { return; }
+    NSLog(@"[sync] create: %@ %@", entry, candidates);
+    CKRecordID *recordID = [[CKRecordID alloc] initWithRecordName:entry];
+    CKRecord* newRecord = [[CKRecord alloc] initWithRecordType:@"DictionaryEntry" recordID:recordID];
+    newRecord[@"candidates"] = candidates;
+    newRecord[@"okuri"] = okuri ? @1 : @0;
+    newRecord[@"updatedAt"] = [NSDate date];
+    [database_ saveRecord:newRecord completionHandler:^(CKRecord *record, NSError *error) {
+        if(error) {
+            NSLog(@"[sync]Create new record error: %@", error);
+        }
+    }];
+    [newRecord release];
+    [recordID release];
+}
+
+void MacCloudSync::update(CKRecord* record, NSString* candidates, bool okuri) {
+    NSLog(@"[sync] update: %@ %@", record.recordID.recordName, candidates);
+    record[@"candidates"] = candidates;
+    record[@"okuri"] = okuri ? @1 : @0;
+    record[@"updatedAt"] = [NSDate date];
+    [database_ saveRecord:record completionHandler:^(CKRecord *record, NSError *error) {
+        if(error) {
+            NSLog(@"[sync]Create new record error: %@", error);
+        }
+    }];
+}
+
+void MacCloudSync::save(bool okuri, SKKDictionaryEntryContainer& container) {
+    // 全数の取得はできないので、50件づつで処理する
+    each_slice(container, 50, ^(SKKDictionaryEntryIterator from, SKKDictionaryEntryIterator to) {        CKQuery *query = buildQuery(okuri, from, to);
+        fetch(query, ^(const std::map<std::string, CKRecord*>& records) {
+            for(SKKDictionaryEntryIterator it = from; it != to; ++it) {
+                NSString* entry = [NSString stringWithUTF8String: it->first.c_str()];
+                NSString* candidates = [NSString stringWithUTF8String: it->second.c_str()];
+                if(CKRecord* record = at(records, it->first)) {
+                    if(![candidates isEqualToString: record[@"candidates"]]) {
+                        update(record, candidates, okuri);
+                    }
+                } else {
+                    create(entry, candidates, okuri);
+                }
+            }
+        });
+        [query release];
+    });
 }
