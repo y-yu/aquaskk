@@ -12,6 +12,7 @@
 		135A2EA01C01589300A5C6C5 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 135A2E9F1C01589300A5C6C5 /* CloudKit.framework */; };
 		135A2EA21C01593B00A5C6C5 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 135A2E9F1C01589300A5C6C5 /* CloudKit.framework */; };
 		135A2EA61C02E6AE00A5C6C5 /* MacCloudSync.mm in Sources */ = {isa = PBXBuildFile; fileRef = 135A2EA51C02E6AE00A5C6C5 /* MacCloudSync.mm */; };
+		135DFB441C0358F800CC1545 /* MacCloudLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 135DFB431C0358F800CC1545 /* MacCloudLoader.mm */; };
 		138EA4E61BE85B2400E8A70E /* azik_us.rule in Resources */ = {isa = PBXBuildFile; fileRef = 138EA4E51BE85B2400E8A70E /* azik_us.rule */; };
 		1397AFB31BCFDD1E004A3E7D /* act.rule in Resources */ = {isa = PBXBuildFile; fileRef = 1397AFB21BCFDD1E004A3E7D /* act.rule */; };
 		13F715941BAD8AFA00F93C56 /* yakumono-ippai.rule in Resources */ = {isa = PBXBuildFile; fileRef = 13F715931BAD8AFA00F93C56 /* yakumono-ippai.rule */; };
@@ -164,6 +165,8 @@
 		135A2EA31C02E4F700A5C6C5 /* SKKCloudSync.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKKCloudSync.h; sourceTree = "<group>"; };
 		135A2EA41C02E63900A5C6C5 /* MacCloudSync.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MacCloudSync.h; sourceTree = "<group>"; };
 		135A2EA51C02E6AE00A5C6C5 /* MacCloudSync.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MacCloudSync.mm; sourceTree = "<group>"; };
+		135DFB421C0358E600CC1545 /* MacCloudLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MacCloudLoader.h; sourceTree = "<group>"; };
+		135DFB431C0358F800CC1545 /* MacCloudLoader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MacCloudLoader.mm; sourceTree = "<group>"; };
 		138EA4E51BE85B2400E8A70E /* azik_us.rule */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = azik_us.rule; sourceTree = "<group>"; };
 		1397AFB21BCFDD1E004A3E7D /* act.rule */ = {isa = PBXFileReference; fileEncoding = 3; lastKnownFileType = text; path = act.rule; sourceTree = "<group>"; };
 		13F715931BAD8AFA00F93C56 /* yakumono-ippai.rule */ = {isa = PBXFileReference; fileEncoding = 3; lastKnownFileType = text; path = "yakumono-ippai.rule"; sourceTree = "<group>"; };
@@ -704,6 +707,8 @@
 				D353BDD80E175513004C68A6 /* MacInputSessionParameter.mm */,
 				135A2EA41C02E63900A5C6C5 /* MacCloudSync.h */,
 				135A2EA51C02E6AE00A5C6C5 /* MacCloudSync.mm */,
+				135DFB421C0358E600CC1545 /* MacCloudLoader.h */,
+				135DFB431C0358F800CC1545 /* MacCloudLoader.mm */,
 				D353BDDB0E175513004C68A6 /* ObjCUtil.h */,
 				D353BDDC0E175513004C68A6 /* SKKConstVars.h */,
 				D353BDDD0E175513004C68A6 /* SKKConstVars.mm */,
@@ -1069,6 +1074,7 @@
 				D353BD050E175501004C68A6 /* SKKProxyDictionary.cpp in Sources */,
 				D353BD070E175501004C68A6 /* SKKCandidateEditor.cpp in Sources */,
 				D353BD080E175501004C68A6 /* SKKComposingEditor.cpp in Sources */,
+				135DFB441C0358F800CC1545 /* MacCloudLoader.mm in Sources */,
 				D353BD0B0E175501004C68A6 /* SKKEntryRemoveEditor.cpp in Sources */,
 				D353BD0C0E175501004C68A6 /* SKKOkuriEditor.cpp in Sources */,
 				D353BD0D0E175501004C68A6 /* SKKPrimaryEditor.cpp in Sources */,

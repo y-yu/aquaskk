@@ -23,6 +23,7 @@
 #import <Foundation/Foundation.h>
 #include <map>
 #import "MacCloudSync.h"
+#include "SKKCandidateSuite.h"
 
 namespace {
     template<typename T>
@@ -47,6 +48,9 @@ namespace {
 void MacCloudSync::Initialize(SKKDictionaryFile& dictionaryFile) {
     database_ = [[CKContainer defaultContainer] privateCloudDatabase];
     dictionaryFile_ = &dictionaryFile;
+
+    loader_ = new MacCloudLoader(database_, dictionaryFile_);
+    timer_ = std::auto_ptr<pthread::timer>(new pthread::timer(loader_, 60));
 }
 
 void MacCloudSync::Save() {

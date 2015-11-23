@@ -2,7 +2,7 @@
 
  MacOS X implementation of the SKK input method.
 
- Copyright (C) 2015 mzp <mzpppp@gmail.com>
+ Copyright (C) 2008 Tomotaka SUWA <t.suwa@mac.com>
 
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -20,32 +20,24 @@
  
  */
 
-#ifndef MacCloudSync_h
-#define MacCloudSync_h
+#ifndef MacCloudLoader_h
+#define MacCloudLoader_h
 
-#include <map>
-#include <string>
+#include "pthreadutil.h"
 #import <CloudKit/CloudKit.h>
-#include "SKKCloudSync.h"
-#include "MacCloudLoader.h"
+#include "SKKDictionaryFile.h"
 
-class MacCloudSync : public SKKCloudSync {
-    std::auto_ptr<pthread::timer> timer_;
-
-    MacCloudLoader* loader_;
+class MacCloudLoader : public pthread::task {
     CKDatabase* database_;
     SKKDictionaryFile* dictionaryFile_;
+    NSDate* lastUpdate_;
 
-    void fetch(CKQuery* query, void (^f)(const std::map<std::string, CKRecord*>& records));
-    void create(NSString* entry, NSString* candidates, bool okuri);
-    void update(CKRecord* record, NSString* candidates, bool okuri);
-    void save(bool okuri, SKKDictionaryEntryContainer& container);
-
-    CKQuery* buildQuery(bool okuri, SKKDictionaryEntryIterator from, SKKDictionaryEntryIterator to);
+    void fetchAll(bool okuri, SKKDictionaryEntryContainer& container);
+    void fetchAll(CKQueryOperation* operation, SKKDictionaryEntryContainer& container);
 
 public:
-    virtual void Initialize(SKKDictionaryFile& dictionaryFile);
-    virtual void Save();
+    MacCloudLoader(CKDatabase* database, SKKDictionaryFile* dictionaryFile);
+    virtual bool run();
 };
 
 #endif
