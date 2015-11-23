@@ -26,6 +26,8 @@
 #include "SKKCloudSync.h"
 
 class MacCloudSync : public SKKCloudSync {
+    SKKDictionaryFile* dictionaryFile_;
+
 public:
     virtual void Initialize(SKKDictionaryFile& dictionaryFile);
     virtual void Save();

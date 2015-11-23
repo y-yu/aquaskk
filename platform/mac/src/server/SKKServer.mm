@@ -34,6 +34,7 @@
 #include "SKKConstVars.h"
 // #include "SKKPythonRunner.h"
 #include "MacKotoeriDictionary.h"
+#include "MacCloudSync.h"
 #include "skkserv.h"
 #include "InputModeWindow.h"
 
@@ -190,7 +191,10 @@ static void terminate(int) {
     NSString* userDictionary = [defaults stringForKey:SKKUserDefaultKeys::user_dictionary_path];
     userDictionary = [userDictionary stringByExpandingTildeInPath];
 
-    SKKBackEnd::theInstance().Initialize([userDictionary UTF8String], keys);
+    SKKUserDictionary* dictionary = new SKKLocalUserDictionary(new MacCloudSync());
+    dictionary->Initialize([userDictionary UTF8String]);
+
+    SKKBackEnd::theInstance().Initialize(dictionary, keys);
 #else
     SKKUserDictionary* dictionary = 0;
 

@@ -24,6 +24,7 @@
 #import "MacCloudSync.h"
 
 void MacCloudSync::Initialize(SKKDictionaryFile& dictionaryFile) {
+    dictionaryFile_ = &dictionaryFile;
 }
 
 void MacCloudSync::Save() {

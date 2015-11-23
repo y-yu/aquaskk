@@ -78,7 +78,7 @@ namespace {
     }
 }
 
-SKKLocalUserDictionary::SKKLocalUserDictionary() : privateMode_(false) {}
+SKKLocalUserDictionary::SKKLocalUserDictionary(SKKCloudSync* cloud_sync) : privateMode_(false), cloud_sync_(cloud_sync) {}
 
 SKKLocalUserDictionary::~SKKLocalUserDictionary() {
     // 強制保存
@@ -103,6 +103,8 @@ void SKKLocalUserDictionary::Initialize(const std::string& path) {
     }
 
     fix();
+
+    cloud_sync_->Initialize(file_);
 }
 
 void SKKLocalUserDictionary::Find(const SKKEntry& entry, SKKCandidateSuite& result) {
@@ -260,6 +262,8 @@ void SKKLocalUserDictionary::save(bool force) {
     } else {
 	std::cout << "SKKLocalUserDictionary: saved" << std::endl;
     }
+
+    cloud_sync_->Save();
 }
 
 void SKKLocalUserDictionary::fix() {

@@ -25,8 +25,10 @@
 
 #include "SKKUserDictionary.h"
 #include "SKKDictionaryFile.h"
+#include "SKKCloudSync.h"
 #include <vector>
 #include <ctime>
+
 
 class SKKLocalUserDictionary : public SKKUserDictionary {
     std::string path_;
@@ -34,6 +36,7 @@ class SKKLocalUserDictionary : public SKKUserDictionary {
     std::time_t lastupdate_;
     SKKDictionaryFile file_;
     bool privateMode_;
+    SKKCloudSync* cloud_sync_;
 
     std::string fetch(const SKKEntry& entry, SKKDictionaryEntryContainer& container);
     void remove(const SKKEntry& entry, const std::string& kanji, SKKDictionaryEntryContainer& container);
@@ -41,7 +44,7 @@ class SKKLocalUserDictionary : public SKKUserDictionary {
     void fix();
 
 public:
-    SKKLocalUserDictionary();
+    SKKLocalUserDictionary(SKKCloudSync* cloud_sync);
 
     virtual ~SKKLocalUserDictionary();
 
