@@ -31,9 +31,10 @@ class MacCloudLoader : public pthread::task {
     CKDatabase* database_;
     SKKDictionaryFile* dictionaryFile_;
     NSDate* lastUpdate_;
+    int fetchedCount_;
 
-    void fetchAll(bool okuri, SKKDictionaryEntryContainer& container);
-    void fetchAll(CKQueryOperation* operation, SKKDictionaryEntryContainer& container);
+    void fetchAll();
+    void fetchAll(CKQueryOperation* operation);
 
 public:
     MacCloudLoader(CKDatabase* database, SKKDictionaryFile* dictionaryFile);

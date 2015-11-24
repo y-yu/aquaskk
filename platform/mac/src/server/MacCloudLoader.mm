@@ -42,51 +42,78 @@ namespace {
                             CompareUserDictionaryEntry(query));
     }
 
-    void update(const std::string& entry, const std::string& candidates, SKKDictionaryEntryContainer& container) {
-        SKKCandidateParser parser;
-        parser.Parse(candidates);
-
-        // 候補が空のやつは無視する。
-        // TOTO: カタカナの学習結果も含まれるけど、どうする?
-        if(parser.Candidates().empty()) { return; }
-
-        // 既存の内容とマージする
-        // TODO: 削除を扱えるようにする
-        SKKCandidateSuite suite;
-        SKKDictionaryEntryIterator iter = find(container, entry);
-        if(iter != container.end()) {
-            suite.Parse(iter->second);
-            container.erase(iter);
+    SKKDictionaryEntry make(const std::string& entry, const std::string& candidates) {
+        // 候補が空の場合は、'//'が入力されていたものとして扱う。
+        // データがおかしくなっても、ここで自動的に元にもどるようにする。
+        if(candidates.empty()) {
+            return SKKDictionaryEntry(entry, "//");
+        } else {
+            return SKKDictionaryEntry(entry, candidates);
         }
-        suite.Add(parser.Candidates());
+    }
 
-        container.push_front(SKKDictionaryEntry(entry, suite.ToString()));
+    bool update(const std::string& entry, const std::string& candidates, SKKDictionaryEntryContainer& container) {
+        SKKDictionaryEntryIterator iter = find(container, entry);
+
+        if(iter != container.end()) {
+            // 更新
+            if(iter->second == candidates && !candidates.empty()) {
+                // 同様の内容なので更新不要
+                return false;
+            } else {
+                // マージする
+                SKKCandidateSuite suite;
+
+                // iCloudから取得した分
+                SKKCandidateParser parser;
+                parser.Parse(candidates);
+                suite.Add(parser.Candidates());
+
+                // もともとあった分
+                parser.Parse(iter->second);
+                suite.Add(parser.Candidates());
+
+                container.erase(iter);
+
+                container.push_front(make(entry, suite.ToString()));
+                return true;
+            }
+        } else {
+            // 新規追加
+            container.push_front(make(entry, candidates));
+            return true;
+        }
     }
 }
 
 MacCloudLoader::MacCloudLoader(CKDatabase* database, SKKDictionaryFile* dictionaryFile)
-:database_(database), dictionaryFile_(dictionaryFile)
+:database_(database), dictionaryFile_(dictionaryFile), fetchedCount_(0)
 {
     lastUpdate_ = [[NSDate dateWithTimeIntervalSince1970:0] retain];
 }
 
-void MacCloudLoader::fetchAll(bool okuri, SKKDictionaryEntryContainer& container) {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(okuri == %@) AND (updatedAt >= %@)", okuri ? @1 : @0, lastUpdate_, nil];
-
+void MacCloudLoader::fetchAll() {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"updatedAt >= %@", lastUpdate_, nil];
     CKQuery* query = [[CKQuery alloc] initWithRecordType:@"DictionaryEntry" predicate:predicate];
+
     CKQueryOperation* operation = [[CKQueryOperation alloc] initWithQuery:query];
-    fetchAll(operation, container);
+    fetchAll(operation);
+
     [query release];
     [operation release];
 }
 
-void MacCloudLoader::fetchAll(CKQueryOperation* operation, SKKDictionaryEntryContainer& container) {
+void MacCloudLoader::fetchAll(CKQueryOperation* operation) {
     operation.recordFetchedBlock = ^(CKRecord* record) {
         NSLog(@"fetch entry: %@ %@", record.recordID.recordName, record[@"candidates"]);
 
         std::string entry([record.recordID.recordName UTF8String]);
         std::string candidates([record[@"candidates"] UTF8String]);
-        update(entry, candidates, container);
+
+        SKKDictionaryEntryContainer& container = [record[@"okuri"] intValue] == 1 ?
+            dictionaryFile_->OkuriAri() : dictionaryFile_->OkuriNasi();
+        bool ret = update(entry, candidates, container);
+        fetchedCount_ += ret ? 1 : 0;
     };
 
     operation.queryCompletionBlock = ^(CKQueryCursor* cursor, NSError* error) {
@@ -94,10 +121,21 @@ void MacCloudLoader::fetchAll(CKQueryOperation* operation, SKKDictionaryEntryCon
             NSLog(@"fetchAll error: %@", error);
         } else if(cursor) {
             CKQueryOperation* operation = [[CKQueryOperation alloc] initWithCursor:cursor];
-            fetchAll(operation, container);
+            fetchAll(operation);
             [operation release];
         } else {
             [lastUpdate_ release];
+            NSLog(@"fetch end");
+
+            if(fetchedCount_ != 0) {
+                NSUserNotification *notification = [[NSUserNotification alloc] init];
+                notification.title = @"AquaSKK同期";
+                notification.subtitle = [NSString stringWithFormat: @"%d件を取得", fetchedCount_];
+                [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+                [notification release];
+            }
+
+            fetchedCount_ = 0;
             lastUpdate_ = [[NSDate date] retain];
         }
     };
@@ -107,7 +145,6 @@ void MacCloudLoader::fetchAll(CKQueryOperation* operation, SKKDictionaryEntryCon
 
 bool MacCloudLoader::run() {
     NSLog(@"fetch update from icloud");
-    fetchAll(true, dictionaryFile_->OkuriAri());
-    fetchAll(false, dictionaryFile_->OkuriNasi());
+    fetchAll();
     return true;
 }
