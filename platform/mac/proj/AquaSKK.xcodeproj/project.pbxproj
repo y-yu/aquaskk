@@ -15,6 +15,7 @@
 		135DFB441C0358F800CC1545 /* MacCloudLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 135DFB431C0358F800CC1545 /* MacCloudLoader.mm */; };
 		138EA4E61BE85B2400E8A70E /* azik_us.rule in Resources */ = {isa = PBXBuildFile; fileRef = 138EA4E51BE85B2400E8A70E /* azik_us.rule */; };
 		1397AFB31BCFDD1E004A3E7D /* act.rule in Resources */ = {isa = PBXBuildFile; fileRef = 1397AFB21BCFDD1E004A3E7D /* act.rule */; };
+		13F3CA311C04937300E7EAB4 /* Image.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13F3CA301C04937300E7EAB4 /* Image.xcassets */; };
 		13F715941BAD8AFA00F93C56 /* yakumono-ippai.rule in Resources */ = {isa = PBXBuildFile; fileRef = 13F715931BAD8AFA00F93C56 /* yakumono-ippai.rule */; };
 		D304587A102D3E590055E32F /* SKKInputEnvironment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3045878102D3E590055E32F /* SKKInputEnvironment.cpp */; };
 		D3046C2C101F3228008A6F47 /* SKKLayoutManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = D3046C2B101F3228008A6F47 /* SKKLayoutManager.mm */; };
@@ -169,6 +170,7 @@
 		135DFB431C0358F800CC1545 /* MacCloudLoader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MacCloudLoader.mm; sourceTree = "<group>"; };
 		138EA4E51BE85B2400E8A70E /* azik_us.rule */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = azik_us.rule; sourceTree = "<group>"; };
 		1397AFB21BCFDD1E004A3E7D /* act.rule */ = {isa = PBXFileReference; fileEncoding = 3; lastKnownFileType = text; path = act.rule; sourceTree = "<group>"; };
+		13F3CA301C04937300E7EAB4 /* Image.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Image.xcassets; sourceTree = "<group>"; };
 		13F715931BAD8AFA00F93C56 /* yakumono-ippai.rule */ = {isa = PBXFileReference; fileEncoding = 3; lastKnownFileType = text; path = "yakumono-ippai.rule"; sourceTree = "<group>"; };
 		D302E2F70EA068EF00E3321E /* SKKInputModeListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKKInputModeListener.h; sourceTree = "<group>"; };
 		D3045878102D3E590055E32F /* SKKInputEnvironment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SKKInputEnvironment.cpp; sourceTree = "<group>"; };
@@ -434,6 +436,7 @@
 		29B97314FDCFA39411CA2CEA /* aquaskk */ = {
 			isa = PBXGroup;
 			children = (
+				13F3CA301C04937300E7EAB4 /* Image.xcassets */,
 				135A2EA11C01592A00A5C6C5 /* AquaSKKPreferences.entitlements */,
 				135A2E9F1C01589300A5C6C5 /* CloudKit.framework */,
 				135A2E9E1C01587B00A5C6C5 /* AquaSKK.entitlements */,
@@ -1046,6 +1049,7 @@
 				1397AFB31BCFDD1E004A3E7D /* act.rule in Resources */,
 				D3F0576610BAD12600F3233E /* period.rule in Resources */,
 				D357591A10BD72E00066692B /* azik.rule in Resources */,
+				13F3CA311C04937300E7EAB4 /* Image.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1205,6 +1209,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libstdc++";
 				CODE_SIGN_ENTITLEMENTS = AquaSKK.entitlements;
@@ -1246,6 +1251,7 @@
 		D3FC32250DD1B09C006A3F5A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libstdc++";
 				CODE_SIGN_ENTITLEMENTS = AquaSKK.entitlements;
@@ -1284,6 +1290,7 @@
 		D3FC32330DD1B102006A3F5A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libstdc++";
 				CODE_SIGN_ENTITLEMENTS = AquaSKKPreferences.entitlements;
@@ -1316,6 +1323,7 @@
 		D3FC32340DD1B102006A3F5A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libstdc++";
 				CODE_SIGN_ENTITLEMENTS = AquaSKKPreferences.entitlements;
