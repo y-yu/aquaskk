@@ -245,7 +245,7 @@ void SKKLocalUserDictionary::save(bool force) {
     if(privateMode_) return;
 
     if(!force && ++ idle_count_ < MAX_IDLE_COUNT && std::time(0) - lastupdate_ < MAX_SAVE_INTERVAL) {
-//	return;
+	return;
     }
 
     idle_count_ = 0;
