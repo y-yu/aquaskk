@@ -40,6 +40,7 @@ class MacCloudSync : public SKKCloudSync {
     void create(NSString* entry, NSString* candidates, bool okuri);
     void update(CKRecord* record, NSString* candidates, bool okuri);
     void save(bool okuri, SKKDictionaryEntryContainer& container);
+    void notify(int created, int updated);
 
     CKQuery* buildQuery(bool okuri, SKKDictionaryEntryIterator from, SKKDictionaryEntryIterator to);
 

@@ -124,24 +124,41 @@ void MacCloudSync::update(CKRecord* record, NSString* candidates, bool okuri) {
     }];
 }
 
+void MacCloudSync::notify(int created, int updated) {
+    if(created == 0 && updated == 0) { return; }
+    NSUserNotification *notification = [[NSUserNotification alloc] init];
+    notification.title = @"AquaSKK同期";
+    notification.subtitle = [NSString stringWithFormat: @"%d件を作成 / %d件を更新", created, updated];
+    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+    [notification release];
+}
+
 void MacCloudSync::save(bool okuri, SKKDictionaryEntryContainer& container) {
     // 全数の取得はできないので、50件づつで処理する
     each_slice(container, 50, ^(SKKDictionaryEntryIterator from, SKKDictionaryEntryIterator to) {
+        // containerが変更されるとiteratorが無効になるので、ここでコピーしておく
         SKKDictionaryEntryContainer tmp;
         std::copy(from, to, std::back_inserter(tmp));
 
         CKQuery *query = buildQuery(okuri, from, to);
         fetch(query, ^(const std::map<std::string, CKRecord*>& records) {
+            int created = 0, updated = 0;
+
             for(SKKDictionaryEntryContainer::const_iterator it = tmp.begin(); it != tmp.end(); ++it) {
                 NSString* entry = [NSString stringWithUTF8String: it->first.c_str()];
                 NSString* candidates = [NSString stringWithUTF8String: it->second.c_str()];
                 if(CKRecord* record = at(records, it->first)) {
                     if(![candidates isEqualToString: record[@"candidates"]]) {
+                        updated ++;
                         update(record, candidates, okuri);
                     }
                 } else {
+                    created ++;
                     create(entry, candidates, okuri);
                 }
+
+                // まだ更新は完了してないけど、通知をだしちゃう。
+                notify(created, updated);
             }
         });
         [query release];
