@@ -50,6 +50,7 @@
                 <string>skkserv_localonly</string>
                 <string>skkserv_port</string>
                 <string>user_dictionary_path</string>
+                <string>enable_icloud</string>
                 <string>use_individual_input_mode</string>
                 <string>show_input_mode_icon</string>
                 <string>enable_dynamic_completion</string>
@@ -958,6 +959,9 @@
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" size="13" name="HiraKakuProN-W3"/>
                                             </buttonCell>
+                                            <connections>
+                                                <binding destination="4" name="value" keyPath="selection.enable_icloud" id="S8h-Dn-A6b"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                     <animations/>
