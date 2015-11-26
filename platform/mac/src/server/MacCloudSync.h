@@ -45,6 +45,7 @@ class MacCloudSync : public SKKCloudSync {
     CKQuery* buildQuery(bool okuri, SKKDictionaryEntryIterator from, SKKDictionaryEntryIterator to);
 
 public:
+    virtual ~MacCloudSync();
     virtual void Initialize(SKKDictionaryFile& dictionaryFile);
     virtual void Save();
 };

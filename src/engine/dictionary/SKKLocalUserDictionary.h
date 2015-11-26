@@ -36,7 +36,7 @@ class SKKLocalUserDictionary : public SKKUserDictionary {
     std::time_t lastupdate_;
     SKKDictionaryFile file_;
     bool privateMode_;
-    SKKCloudSync* cloud_sync_;
+    std::auto_ptr<SKKCloudSync> cloud_sync_;
 
     std::string fetch(const SKKEntry& entry, SKKDictionaryEntryContainer& container);
     void remove(const SKKEntry& entry, const std::string& kanji, SKKDictionaryEntryContainer& container);

@@ -87,7 +87,7 @@ namespace {
 }
 
 MacCloudLoader::MacCloudLoader(CKDatabase* database, SKKDictionaryFile* dictionaryFile)
-:database_(database), dictionaryFile_(dictionaryFile), fetchedCount_(0)
+:database_(database), dictionaryFile_(dictionaryFile), fetchedCount_(0), runnable_(true)
 {
     lastUpdate_ = [[NSDate dateWithTimeIntervalSince1970:0] retain];
 }
@@ -105,6 +105,8 @@ void MacCloudLoader::fetchAll() {
 
 void MacCloudLoader::fetchAll(CKQueryOperation* operation) {
     operation.recordFetchedBlock = ^(CKRecord* record) {
+        if(!runnable_) return;
+
         NSLog(@"fetch entry: %@ %@", record.recordID.recordName, record[@"candidates"]);
 
         std::string entry([record.recordID.recordName UTF8String]);
@@ -119,12 +121,13 @@ void MacCloudLoader::fetchAll(CKQueryOperation* operation) {
     operation.queryCompletionBlock = ^(CKQueryCursor* cursor, NSError* error) {
         if(error) {
             NSLog(@"fetchAll error: %@", error);
-        } else if(cursor) {
+        } else if(cursor && runnable_) {
+            // 途中の場合は取得を継続する
             CKQueryOperation* operation = [[CKQueryOperation alloc] initWithCursor:cursor];
             fetchAll(operation);
             [operation release];
         } else {
-            [lastUpdate_ release];
+            // 最後まで来た
             NSLog(@"fetch end");
 
             if(fetchedCount_ != 0) {
@@ -136,6 +139,7 @@ void MacCloudLoader::fetchAll(CKQueryOperation* operation) {
             }
 
             fetchedCount_ = 0;
+            [lastUpdate_ release];
             lastUpdate_ = [[NSDate date] retain];
         }
     };
@@ -146,5 +150,9 @@ void MacCloudLoader::fetchAll(CKQueryOperation* operation) {
 bool MacCloudLoader::run() {
     NSLog(@"fetch update from icloud");
     fetchAll();
-    return true;
+    return runnable_;
+}
+
+void MacCloudLoader::Stop() {
+    runnable_ = false;
 }

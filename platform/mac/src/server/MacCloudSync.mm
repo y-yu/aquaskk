@@ -47,6 +47,10 @@ namespace {
     }
 }
 
+MacCloudSync::~MacCloudSync() {
+    loader_->Stop();
+}
+
 void MacCloudSync::Initialize(SKKDictionaryFile& dictionaryFile) {
     database_ = [[CKContainer defaultContainer] privateCloudDatabase];
     dictionaryFile_ = &dictionaryFile;

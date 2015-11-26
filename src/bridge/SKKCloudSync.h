@@ -27,6 +27,7 @@
 
 class SKKCloudSync {
 public:
+    virtual ~SKKCloudSync() {};
     virtual void Initialize(SKKDictionaryFile& dictionaryFile) = 0;
     virtual void Save() = 0;
 };
