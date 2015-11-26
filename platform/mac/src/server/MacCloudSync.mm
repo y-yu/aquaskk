@@ -156,10 +156,9 @@ void MacCloudSync::save(bool okuri, SKKDictionaryEntryContainer& container) {
                     created ++;
                     create(entry, candidates, okuri);
                 }
-
-                // まだ更新は完了してないけど、通知をだしちゃう。
-                notify(created, updated);
             }
+             // まだ更新は完了してないけど、通知をだしちゃう。
+            notify(created, updated);
         });
         [query release];
     });
