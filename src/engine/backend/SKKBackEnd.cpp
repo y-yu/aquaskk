@@ -125,6 +125,30 @@ SKKBackEnd& SKKBackEnd::theInstance() {
     return obj;
 }
 
+void SKKBackEnd::Initialize(const std::string& userdict_path, const SKKDictionaryKeyContainer& keys) {
+    if(userdict_.get() == 0) {
+        userdict_.reset(new SKKLocalUserDictionary());
+    }
+
+    userdict_->Initialize(userdict_path);
+
+    // 不要な辞書を破棄する
+    for(unsigned i = 0; i < actives_.size(); ++ i) {
+	if(std::find(keys.begin(), keys.end(), actives_[i]) == keys.end()) {
+	    cache_.Clear(actives_[i]);
+	}
+    }
+
+    // 辞書を初期化する
+    dicts_.clear();
+    dicts_.push_back(userdict_.get());
+    for(unsigned i = 0; i < keys.size(); ++ i) {
+	dicts_.push_back(cache_.Get(keys[i]));
+    }
+
+    actives_ = keys;
+}
+
 void SKKBackEnd::Initialize(SKKUserDictionary* dictionary, const SKKDictionaryKeyContainer& keys) {
     userdict_.reset(dictionary);
 

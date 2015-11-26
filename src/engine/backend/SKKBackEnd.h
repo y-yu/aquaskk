@@ -52,6 +52,8 @@ class SKKBackEnd {
 public:
     static SKKBackEnd& theInstance();
 
+    void Initialize(const std::string& userdict_path, const SKKDictionaryKeyContainer& keys);
+
     // 初期化
     void Initialize(SKKUserDictionary* dictionary, const SKKDictionaryKeyContainer& keys);
 
