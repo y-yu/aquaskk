@@ -45,6 +45,7 @@ class SKKLocalUserDictionary : public SKKUserDictionary {
 
 public:
     SKKLocalUserDictionary(SKKCloudSync* cloud_sync);
+    SKKLocalUserDictionary();
 
     virtual ~SKKLocalUserDictionary();
 

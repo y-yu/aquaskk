@@ -191,10 +191,15 @@ static void terminate(int) {
     NSString* userDictionary = [defaults stringForKey:SKKUserDefaultKeys::user_dictionary_path];
     userDictionary = [userDictionary stringByExpandingTildeInPath];
 
-    SKKUserDictionary* dictionary = new SKKLocalUserDictionary(new MacCloudSync());
-    dictionary->Initialize([userDictionary UTF8String]);
-
-    SKKBackEnd::theInstance().Initialize(dictionary, keys);
+    if([defaults boolForKey:SKKUserDefaultKeys::enable_icloud] == YES) {
+        SKKUserDictionary* dictionary = new SKKLocalUserDictionary(new MacCloudSync());
+        dictionary->Initialize([userDictionary UTF8String]);
+        SKKBackEnd::theInstance().Initialize(dictionary, keys);
+    } else {
+        SKKUserDictionary* dictionary = new SKKLocalUserDictionary();
+        dictionary->Initialize([userDictionary UTF8String]);
+        SKKBackEnd::theInstance().Initialize(dictionary, keys);
+    }
 #else
     SKKUserDictionary* dictionary = 0;
 

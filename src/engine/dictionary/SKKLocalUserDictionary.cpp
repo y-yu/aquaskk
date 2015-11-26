@@ -80,6 +80,8 @@ namespace {
 
 SKKLocalUserDictionary::SKKLocalUserDictionary(SKKCloudSync* cloud_sync) : privateMode_(false), cloud_sync_(cloud_sync) {}
 
+SKKLocalUserDictionary::SKKLocalUserDictionary() : privateMode_(false), cloud_sync_(nullptr) {}
+
 SKKLocalUserDictionary::~SKKLocalUserDictionary() {
     // 強制保存
     if(!path_.empty()) save(true);
@@ -104,7 +106,9 @@ void SKKLocalUserDictionary::Initialize(const std::string& path) {
 
     fix();
 
-    cloud_sync_->Initialize(file_);
+    if(cloud_sync_.get() != nullptr) {
+        cloud_sync_->Initialize(file_);
+    }
 }
 
 void SKKLocalUserDictionary::Find(const SKKEntry& entry, SKKCandidateSuite& result) {
@@ -263,7 +267,9 @@ void SKKLocalUserDictionary::save(bool force) {
 	std::cout << "SKKLocalUserDictionary: saved" << std::endl;
     }
 
-    cloud_sync_->Save();
+    if(cloud_sync_.get() != nullptr) {
+        cloud_sync_->Save();
+    }
 }
 
 void SKKLocalUserDictionary::fix() {
