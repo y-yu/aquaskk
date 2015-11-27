@@ -116,6 +116,8 @@ void MacCloudSync::create(NSString* entry, NSString* candidates, bool okuri) {
     [recordID release];
 }
 
+
+
 void MacCloudSync::update(CKRecord* record, NSString* candidates, bool okuri) {
     NSLog(@"[sync] update: %@ %@", record.recordID.recordName, candidates);
     record[@"candidates"] = candidates;
@@ -128,11 +130,25 @@ void MacCloudSync::update(CKRecord* record, NSString* candidates, bool okuri) {
     }];
 }
 
-void MacCloudSync::notify(int created, int updated) {
-    if(created == 0 && updated == 0) { return; }
+void MacCloudSync::remove(NSString* entry, NSString* candidate, bool okuri) {
+    NSLog(@"[sync] delete: %@ %@", entry, candidate);
+    CKRecord* newRecord = [[CKRecord alloc] initWithRecordType:@"DeletedDictionaryEntry"];
+    newRecord[@"entry"] = entry;
+    newRecord[@"candidate"] = candidate;
+    newRecord[@"okuri"] = okuri ? @1 : @0;
+    newRecord[@"updatedAt"] = [NSDate date];
+    [database_ saveRecord:newRecord completionHandler:^(CKRecord *record, NSError *error) {
+        if(error) {
+            NSLog(@"[sync]Create deleted record error: %@", error);
+        }
+    }];
+    [newRecord release];
+}
+
+void MacCloudSync::notify(NSString* text) {
     NSUserNotification *notification = [[NSUserNotification alloc] init];
     notification.title = @"AquaSKK同期";
-    notification.subtitle = [NSString stringWithFormat: @"%d件を作成 / %d件を更新", created, updated];
+    notification.subtitle = text;
     [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
     [notification release];
 }
@@ -162,8 +178,37 @@ void MacCloudSync::save(bool okuri, SKKDictionaryEntryContainer& container) {
                 }
             }
              // まだ更新は完了してないけど、通知をだしちゃう。
-            notify(created, updated);
+            if(created != 0 || updated != 0) {
+                notify([NSString stringWithFormat: @"%d件を作成 / %d件を更新", created, updated]);
+            }
         });
         [query release];
     });
+
+    for(SKKDictionaryEntryIterator it = deletedOkuriAri_.begin(); it != deletedOkuriAri_.end(); ++it) {
+        NSString* entry = [NSString stringWithUTF8String: it->first.c_str()];
+        NSString* candidate = [NSString stringWithUTF8String: it->second.c_str()];
+        remove(entry, candidate, true);
+    }
+
+    for(SKKDictionaryEntryIterator it = deletedOkuriNasi_.begin(); it != deletedOkuriNasi_.end(); ++it) {
+        NSString* entry = [NSString stringWithUTF8String: it->first.c_str()];
+        NSString* candidate = [NSString stringWithUTF8String: it->second.c_str()];
+        remove(entry, candidate, false);
+    }
+
+    int deletedCount = deletedOkuriAri_.size() + deletedOkuriNasi_.size();
+    if(deletedCount != 0) {
+        notify([NSString stringWithFormat: @"%d件を削除", deletedCount]);
+        deletedOkuriAri_.clear();
+        deletedOkuriNasi_.clear();
+    }
+}
+
+void MacCloudSync::Remove(const SKKEntry& entry, const std::string& kanji, bool okuri) {
+    if(okuri) {
+        deletedOkuriAri_.push_back(SKKDictionaryEntry(entry.EntryString(), kanji));
+    } else {
+        deletedOkuriNasi_.push_back(SKKDictionaryEntry(entry.EntryString(), kanji));
+    }
 }
