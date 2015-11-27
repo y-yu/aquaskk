@@ -189,12 +189,20 @@ void SKKLocalUserDictionary::Register(const SKKEntry& entry, const SKKCandidate&
 
 void SKKLocalUserDictionary::Remove(const SKKEntry& entry, const SKKCandidate& candidate) {
     if(entry.IsOkuriAri()) {
+        if (cloud_sync_.get() != nullptr) {
+            cloud_sync_->Remove(entry, candidate.ToString(), true);
+        }
         remove(entry, candidate.ToString(), file_.OkuriAri());
     } else {
         SKKCandidate tmp(candidate);
 
         tmp.Encode();
-    
+
+        if (cloud_sync_.get() != nullptr) {
+            cloud_sync_->Remove(entry, tmp.ToString(), false);
+        }
+
+
         remove(entry, tmp.ToString(), file_.OkuriNasi());
     }
         

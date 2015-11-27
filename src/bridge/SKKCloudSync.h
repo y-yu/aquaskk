@@ -24,12 +24,14 @@
 #define SKKCloudSync_h
 
 #include "SKKDictionaryFile.h"
+#include "SKKEntry.h"
 
 class SKKCloudSync {
 public:
     virtual ~SKKCloudSync() {};
     virtual void Initialize(SKKDictionaryFile& dictionaryFile) = 0;
     virtual void Save() = 0;
+    virtual void Remove(const SKKEntry& entry, const std::string& kanji, bool okuri) = 0;
 };
 
 #endif
