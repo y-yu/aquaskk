@@ -34,9 +34,12 @@ class MacCloudLoader : public pthread::task {
     int fetchedCount_;
     bool runnable_;
 
-    void fetchAll();
-    void fetchAll(CKQueryOperation* operation);
-
+    void fetch(NSString* recordName, void (^f)(CKRecord* record), void (^last)());
+    void fetch(CKQueryOperation* operation, void (^f)(CKRecord* record), void (^last)());
+    
+    void merge(CKRecord* record);
+    void remove(CKRecord* record);
+    void finish();
 public:
     MacCloudLoader(CKDatabase* database, SKKDictionaryFile* dictionaryFile);
     void Stop();

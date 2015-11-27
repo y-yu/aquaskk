@@ -84,6 +84,24 @@ namespace {
             return true;
         }
     }
+
+    bool removeEntry(const std::string& entry, const std::string& candidate, SKKDictionaryEntryContainer& container) {
+        SKKDictionaryEntryIterator iter = find(container, entry);
+
+        if(iter == container.end()) return false;
+
+        SKKCandidateSuite suite;
+
+        suite.Parse(iter->second);
+        suite.Remove(candidate);
+
+        if(suite.IsEmpty()) {
+            container.erase(iter);
+        } else {
+            iter->second = suite.ToString();
+        }
+        return true;
+    }
 }
 
 MacCloudLoader::MacCloudLoader(CKDatabase* database, SKKDictionaryFile* dictionaryFile)
@@ -92,64 +110,95 @@ MacCloudLoader::MacCloudLoader(CKDatabase* database, SKKDictionaryFile* dictiona
     lastUpdate_ = [[NSDate dateWithTimeIntervalSince1970:0] retain];
 }
 
-void MacCloudLoader::fetchAll() {
+void MacCloudLoader::fetch(NSString* recordName, void (^f)(CKRecord* record), void (^last)()) {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"updatedAt >= %@", lastUpdate_, nil];
-    CKQuery* query = [[CKQuery alloc] initWithRecordType:@"DictionaryEntry" predicate:predicate];
+    CKQuery* query = [[CKQuery alloc] initWithRecordType:recordName predicate:predicate];
 
     CKQueryOperation* operation = [[CKQueryOperation alloc] initWithQuery:query];
-    fetchAll(operation);
+    fetch(operation, f, last);
 
     [query release];
     [operation release];
 }
 
-void MacCloudLoader::fetchAll(CKQueryOperation* operation) {
+void MacCloudLoader::fetch(CKQueryOperation* operation, void (^f)(CKRecord* record), void (^last)()) {
     operation.recordFetchedBlock = ^(CKRecord* record) {
         if(!runnable_) return;
-
-        NSLog(@"fetch entry: %@ %@", record.recordID.recordName, record[@"candidates"]);
-
-        std::string entry([record.recordID.recordName UTF8String]);
-        std::string candidates([record[@"candidates"] UTF8String]);
-
-        SKKDictionaryEntryContainer& container = [record[@"okuri"] intValue] == 1 ?
-            dictionaryFile_->OkuriAri() : dictionaryFile_->OkuriNasi();
-        bool ret = update(entry, candidates, container);
-        fetchedCount_ += ret ? 1 : 0;
+        f(record);
     };
 
     operation.queryCompletionBlock = ^(CKQueryCursor* cursor, NSError* error) {
         if(error) {
             NSLog(@"fetchAll error: %@", error);
-        } else if(cursor && runnable_) {
+            return;
+        }
+        if(!runnable_) { return; }
+
+
+        if(cursor) {
             // 途中の場合は取得を継続する
             CKQueryOperation* operation = [[CKQueryOperation alloc] initWithCursor:cursor];
-            fetchAll(operation);
+            fetch(operation, f, last);
             [operation release];
         } else {
             // 最後まで来た
-            NSLog(@"fetch end");
-
-            if(fetchedCount_ != 0) {
-                NSUserNotification *notification = [[NSUserNotification alloc] init];
-                notification.title = @"AquaSKK同期";
-                notification.subtitle = [NSString stringWithFormat: @"%d件を取得", fetchedCount_];
-                [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
-                [notification release];
-            }
-
-            fetchedCount_ = 0;
-            [lastUpdate_ release];
-            lastUpdate_ = [[NSDate date] retain];
+            last();
         }
     };
 
     [database_ addOperation:operation];
 }
 
+void MacCloudLoader::merge(CKRecord* record) {
+    NSLog(@"fetch entry: %@ %@", record.recordID.recordName, record[@"candidates"]);
+
+    std::string entry([record.recordID.recordName UTF8String]);
+    std::string candidates([record[@"candidates"] UTF8String]);
+
+    SKKDictionaryEntryContainer& container = [record[@"okuri"] intValue] == 1 ?
+    dictionaryFile_->OkuriAri() : dictionaryFile_->OkuriNasi();
+    bool ret = update(entry, candidates, container);
+    fetchedCount_ += ret ? 1 : 0;
+}
+
+void MacCloudLoader::remove(CKRecord* record) {
+    NSLog(@"fetch deleted entry: %@ %@", record[@"entry"], record[@"candidate"]);
+
+    std::string entry([record[@"entry"] UTF8String]);
+    std::string candidates([record[@"candidate"] UTF8String]);
+
+    SKKDictionaryEntryContainer& container = [record[@"okuri"] intValue] == 1 ?
+    dictionaryFile_->OkuriAri() : dictionaryFile_->OkuriNasi();
+    bool ret = removeEntry(entry, candidates, container);
+    fetchedCount_ += ret ? 1 : 0;
+}
+
+void MacCloudLoader::finish() {
+    NSLog(@"fetch end");
+
+    if(fetchedCount_ != 0) {
+        NSUserNotification *notification = [[NSUserNotification alloc] init];
+        notification.title = @"AquaSKK同期";
+        notification.subtitle = [NSString stringWithFormat: @"%d件を取得", fetchedCount_];
+        [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+        [notification release];
+
+        fetchedCount_ = 0;
+    }
+
+    [lastUpdate_ release];
+    lastUpdate_ = [[NSDate date] retain];
+}
+
 bool MacCloudLoader::run() {
     NSLog(@"fetch update from icloud");
-    fetchAll();
+
+    fetch(@"DictionaryEntry",
+          ^(CKRecord* record) { merge(record); },
+          ^() {
+              fetch(@"DeletedDictionaryEntry",
+                    ^(CKRecord* record) { remove(record); },
+                    ^() { finish(); } ); });
     return runnable_;
 }
 
