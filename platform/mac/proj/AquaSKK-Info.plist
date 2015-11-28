@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>askk</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2</string>
 	<key>ComponentInputModeDict</key>
 	<dict>
 		<key>tsInputModeListKey</key>
