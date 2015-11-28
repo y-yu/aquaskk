@@ -45,6 +45,23 @@ namespace {
         if(it != data.end()) return it->second;
         else return Value();
     }
+
+    // SKKDictionaryEntry と文字列を比較するファンクタ
+    class CompareUserDictionaryEntry: public std::unary_function<SKKDictionaryEntry, bool> {
+        const std::string str_;
+
+    public:
+        CompareUserDictionaryEntry(const std::string& str) : str_(str) {}
+
+        bool operator()(const SKKDictionaryEntry& entry) const {
+            return entry.first == str_;
+        }
+    };
+
+    SKKDictionaryEntryIterator find(SKKDictionaryEntryContainer& container, const std::string& query) {
+        return std::find_if(container.begin(), container.end(),
+                            CompareUserDictionaryEntry(query));
+    }
 }
 
 MacCloudSync::~MacCloudSync() {
@@ -93,7 +110,7 @@ CKQuery* MacCloudSync::buildQuery(bool okuri, SKKDictionaryEntryIterator from, S
         [recordID release];
     }
 
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"okuri == %@ AND recordID in %@", okuri ? @1 : @0, xs, nil];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"recordID in %@", xs, nil];
     CKQuery* query = [[CKQuery alloc] initWithRecordType:@"DictionaryEntry" predicate:predicate];
     [xs release];
     return query;
@@ -116,8 +133,6 @@ void MacCloudSync::create(NSString* entry, NSString* candidates, bool okuri) {
     [recordID release];
 }
 
-
-
 void MacCloudSync::update(CKRecord* record, NSString* candidates, bool okuri) {
     NSLog(@"[sync] update: %@ %@", record.recordID.recordName, candidates);
     record[@"candidates"] = candidates;
@@ -130,8 +145,42 @@ void MacCloudSync::update(CKRecord* record, NSString* candidates, bool okuri) {
     }];
 }
 
+void MacCloudSync::restore(NSString* entry, NSString* candidate, bool okuri) {
+    NSLog(@"[sync] restore %@ %@", entry, candidate);
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"entry = %@ AND candidate = %@", entry, candidate, nil];
+    CKQuery* query = [[CKQuery alloc] initWithRecordType:@"DeletedDictionaryEntry" predicate:predicate];
+
+    [database_ performQuery:query inZoneWithID:nil completionHandler: ^(NSArray* records, NSError* error) {
+        if(error) {
+            NSLog(@"[sync]Restore record error(maybe harmless): %@", error);
+        } else {
+            for(CKRecord* record in records) {
+                [database_ deleteRecordWithID:record.recordID completionHandler: ^(CKRecordID* recordID, NSError* error) {
+                    if(error) {
+                        NSLog(@"[sync]Restore record error: %@", error);
+                    } else {
+                        NSLog(@"[sync]restore %@", entry);
+                    }
+                }];
+            }
+        }
+    }];
+}
+
 void MacCloudSync::remove(NSString* entry, NSString* candidate, bool okuri) {
     NSLog(@"[sync] delete: %@ %@", entry, candidate);
+
+    // 空になったら dictionary entryからも消す
+    std::string e([entry UTF8String]);
+    SKKDictionaryEntryContainer& container = okuri ? dictionaryFile_->OkuriAri() : dictionaryFile_->OkuriNasi();
+    SKKDictionaryEntryIterator iter = find(container , e);
+    if(iter == container.end()) {
+        CKRecordID* recordID = [[CKRecordID alloc] initWithRecordName:entry];
+        [database_ deleteRecordWithID:recordID completionHandler: ^(CKRecordID* recordID, NSError* error) {
+        }];
+    }
+
+    // deleted
     CKRecord* newRecord = [[CKRecord alloc] initWithRecordType:@"DeletedDictionaryEntry"];
     newRecord[@"entry"] = entry;
     newRecord[@"candidate"] = candidate;
@@ -167,6 +216,7 @@ void MacCloudSync::save(bool okuri, SKKDictionaryEntryContainer& container) {
             for(SKKDictionaryEntryContainer::const_iterator it = tmp.begin(); it != tmp.end(); ++it) {
                 NSString* entry = [NSString stringWithUTF8String: it->first.c_str()];
                 NSString* candidates = [NSString stringWithUTF8String: it->second.c_str()];
+
                 if(CKRecord* record = at(records, it->first)) {
                     if(![candidates isEqualToString: record[@"candidates"]]) {
                         updated ++;
@@ -185,6 +235,18 @@ void MacCloudSync::save(bool okuri, SKKDictionaryEntryContainer& container) {
         [query release];
     });
 
+    for(SKKDictionaryEntryIterator it = restoreOkuriAri_.begin(); it != restoreOkuriAri_.end(); ++it) {
+        NSString* entry = [NSString stringWithUTF8String: it->first.c_str()];
+        NSString* candidate = [NSString stringWithUTF8String: it->second.c_str()];
+        restore(entry, candidate, true);
+    }
+
+    for(SKKDictionaryEntryIterator it = restoreOkuriNasi_.begin(); it != restoreOkuriNasi_.end(); ++it) {
+        NSString* entry = [NSString stringWithUTF8String: it->first.c_str()];
+        NSString* candidate = [NSString stringWithUTF8String: it->second.c_str()];
+        restore(entry, candidate, false);
+    }
+
     for(SKKDictionaryEntryIterator it = deletedOkuriAri_.begin(); it != deletedOkuriAri_.end(); ++it) {
         NSString* entry = [NSString stringWithUTF8String: it->first.c_str()];
         NSString* candidate = [NSString stringWithUTF8String: it->second.c_str()];
@@ -202,6 +264,16 @@ void MacCloudSync::save(bool okuri, SKKDictionaryEntryContainer& container) {
         notify([NSString stringWithFormat: @"%d件を削除", deletedCount]);
         deletedOkuriAri_.clear();
         deletedOkuriNasi_.clear();
+    }
+    restoreOkuriAri_.clear();
+    restoreOkuriNasi_.clear();
+}
+
+void MacCloudSync::Register(const SKKEntry& entry, const std::string& kanji, bool okuri) {
+    if(okuri) {
+        restoreOkuriAri_.push_back(SKKDictionaryEntry(entry.EntryString(), kanji));
+    } else {
+        restoreOkuriNasi_.push_back(SKKDictionaryEntry(entry.EntryString(), kanji));
     }
 }
 

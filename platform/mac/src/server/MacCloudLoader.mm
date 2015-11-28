@@ -150,7 +150,7 @@ void MacCloudLoader::fetch(CKQueryOperation* operation, void (^f)(CKRecord* reco
 }
 
 void MacCloudLoader::merge(CKRecord* record) {
-    NSLog(@"fetch entry: %@ %@", record.recordID.recordName, record[@"candidates"]);
+//    NSLog(@"fetch entry: %@ %@", record.recordID.recordName, record[@"candidates"]);
 
     std::string entry([record.recordID.recordName UTF8String]);
     std::string candidates([record[@"candidates"] UTF8String]);

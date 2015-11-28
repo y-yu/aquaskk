@@ -31,6 +31,10 @@
 
 class MacCloudSync : public SKKCloudSync {
     std::auto_ptr<pthread::timer> timer_;
+
+    SKKDictionaryEntryContainer restoreOkuriAri_;
+    SKKDictionaryEntryContainer restoreOkuriNasi_;
+
     SKKDictionaryEntryContainer deletedOkuriAri_;
     SKKDictionaryEntryContainer deletedOkuriNasi_;
 
@@ -41,6 +45,7 @@ class MacCloudSync : public SKKCloudSync {
     void fetch(CKQuery* query, void (^f)(const std::map<std::string, CKRecord*>& records));
     void create(NSString* entry, NSString* candidates, bool okuri);
     void update(CKRecord* record, NSString* candidates, bool okuri);
+    void restore(NSString* entry, NSString* candidate, bool okuri);
     void remove(NSString* entry, NSString* candidate, bool okuri);
     void save(bool okuri, SKKDictionaryEntryContainer& container);
     void notify(NSString* text);
@@ -52,6 +57,7 @@ public:
     virtual ~MacCloudSync();
     virtual void Initialize(SKKDictionaryFile& dictionaryFile);
     virtual void Save();
+    virtual void Register(const SKKEntry& entry, const std::string& kanji, bool okuri);
     virtual void Remove(const SKKEntry& entry, const std::string& kanji, bool okuri);
 };
 
