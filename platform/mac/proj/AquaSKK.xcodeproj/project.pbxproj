@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		130B7D651C269A0C0081E7BD /* SKKCloudUserDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 130B7D631C269A0C0081E7BD /* SKKCloudUserDictionary.cpp */; };
+		130B7D6A1C269E6B0081E7BD /* MacCloudStrategy.mm in Sources */ = {isa = PBXBuildFile; fileRef = 130B7D691C269E6B0081E7BD /* MacCloudStrategy.mm */; };
 		131E98E31BE4EE4600E898E6 /* act.conf in Resources */ = {isa = PBXBuildFile; fileRef = 131E98E21BE4EE4600E898E6 /* act.conf */; };
 		1326BC8D1BE7974B008F1D05 /* azik.conf in Resources */ = {isa = PBXBuildFile; fileRef = 1326BC8C1BE7974B008F1D05 /* azik.conf */; };
 		138EA4E61BE85B2400E8A70E /* azik_us.rule in Resources */ = {isa = PBXBuildFile; fileRef = 138EA4E51BE85B2400E8A70E /* azik_us.rule */; };
@@ -158,6 +159,8 @@
 		130B7D631C269A0C0081E7BD /* SKKCloudUserDictionary.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SKKCloudUserDictionary.cpp; sourceTree = "<group>"; };
 		130B7D641C269A0C0081E7BD /* SKKCloudUserDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKKCloudUserDictionary.h; sourceTree = "<group>"; };
 		130B7D671C269B6E0081E7BD /* SKKSyncStrategy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKKSyncStrategy.h; sourceTree = "<group>"; };
+		130B7D681C269DFD0081E7BD /* MacCloudStrategy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MacCloudStrategy.h; sourceTree = "<group>"; };
+		130B7D691C269E6B0081E7BD /* MacCloudStrategy.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MacCloudStrategy.mm; sourceTree = "<group>"; };
 		131E98E21BE4EE4600E898E6 /* act.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = act.conf; sourceTree = "<group>"; };
 		1326BC8C1BE7974B008F1D05 /* azik.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = azik.conf; sourceTree = "<group>"; };
 		138EA4E51BE85B2400E8A70E /* azik_us.rule */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = azik_us.rule; sourceTree = "<group>"; };
@@ -705,6 +708,8 @@
 				D353BDD60E175513004C68A6 /* MacInputModeWindow.mm */,
 				D353BDD70E175513004C68A6 /* MacInputSessionParameter.h */,
 				D353BDD80E175513004C68A6 /* MacInputSessionParameter.mm */,
+				130B7D681C269DFD0081E7BD /* MacCloudStrategy.h */,
+				130B7D691C269E6B0081E7BD /* MacCloudStrategy.mm */,
 				D353BDDB0E175513004C68A6 /* ObjCUtil.h */,
 				D353BDDC0E175513004C68A6 /* SKKConstVars.h */,
 				D353BDDD0E175513004C68A6 /* SKKConstVars.mm */,
@@ -1080,6 +1085,7 @@
 				D353BDEE0E175513004C68A6 /* SKKConstVars.mm in Sources */,
 				D353BDEF0E175513004C68A6 /* SKKInputController.mm in Sources */,
 				D353BDF00E175513004C68A6 /* SKKPreProcessor.mm in Sources */,
+				130B7D6A1C269E6B0081E7BD /* MacCloudStrategy.mm in Sources */,
 				D353BDF10E175513004C68A6 /* SKKServer.mm in Sources */,
 				D353BDF20E175513004C68A6 /* SKKServerProxy.mm in Sources */,
 				D353BDF30E175513004C68A6 /* main.mm in Sources */,
