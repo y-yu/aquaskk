@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		130B7D651C269A0C0081E7BD /* SKKCloudUserDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 130B7D631C269A0C0081E7BD /* SKKCloudUserDictionary.cpp */; };
 		130B7D6A1C269E6B0081E7BD /* MacCloudStrategy.mm in Sources */ = {isa = PBXBuildFile; fileRef = 130B7D691C269E6B0081E7BD /* MacCloudStrategy.mm */; };
+		130B7D6D1C26B7950081E7BD /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 130B7D6C1C26B7950081E7BD /* CloudKit.framework */; };
+		130B7D6F1C26B8F90081E7BD /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 130B7D6C1C26B7950081E7BD /* CloudKit.framework */; };
 		131E98E31BE4EE4600E898E6 /* act.conf in Resources */ = {isa = PBXBuildFile; fileRef = 131E98E21BE4EE4600E898E6 /* act.conf */; };
 		1326BC8D1BE7974B008F1D05 /* azik.conf in Resources */ = {isa = PBXBuildFile; fileRef = 1326BC8C1BE7974B008F1D05 /* azik.conf */; };
 		138EA4E61BE85B2400E8A70E /* azik_us.rule in Resources */ = {isa = PBXBuildFile; fileRef = 138EA4E51BE85B2400E8A70E /* azik_us.rule */; };
@@ -161,6 +163,9 @@
 		130B7D671C269B6E0081E7BD /* SKKSyncStrategy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKKSyncStrategy.h; sourceTree = "<group>"; };
 		130B7D681C269DFD0081E7BD /* MacCloudStrategy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MacCloudStrategy.h; sourceTree = "<group>"; };
 		130B7D691C269E6B0081E7BD /* MacCloudStrategy.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MacCloudStrategy.mm; sourceTree = "<group>"; };
+		130B7D6B1C26B78B0081E7BD /* AquaSKK.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = AquaSKK.entitlements; path = AquaSKK/AquaSKK.entitlements; sourceTree = "<group>"; };
+		130B7D6C1C26B7950081E7BD /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		130B7D6E1C26B8EC0081E7BD /* AquaSKKPreferences.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = AquaSKKPreferences.entitlements; sourceTree = "<group>"; };
 		131E98E21BE4EE4600E898E6 /* act.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = act.conf; sourceTree = "<group>"; };
 		1326BC8C1BE7974B008F1D05 /* azik.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = azik.conf; sourceTree = "<group>"; };
 		138EA4E51BE85B2400E8A70E /* azik_us.rule */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = azik_us.rule; sourceTree = "<group>"; };
@@ -410,6 +415,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3FC33930DD1B52D006A3F5A /* InputMethodKit.framework in Frameworks */,
+				130B7D6D1C26B7950081E7BD /* CloudKit.framework in Frameworks */,
 				D3FC33970DD1B53A006A3F5A /* QuartzCore.framework in Frameworks */,
 				D3F467B90E9E5FAC000A8C6A /* Carbon.framework in Frameworks */,
 			);
@@ -420,6 +426,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3FC339B0DD1B550006A3F5A /* Carbon.framework in Frameworks */,
+				130B7D6F1C26B8F90081E7BD /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -443,6 +450,9 @@
 		29B97314FDCFA39411CA2CEA /* aquaskk */ = {
 			isa = PBXGroup;
 			children = (
+				130B7D6E1C26B8EC0081E7BD /* AquaSKKPreferences.entitlements */,
+				130B7D6C1C26B7950081E7BD /* CloudKit.framework */,
+				130B7D6B1C26B78B0081E7BD /* AquaSKK.entitlements */,
 				13E607831C2693A300FD8FB9 /* Images.xcassets */,
 				D3FC32270DD1B0D2006A3F5A /* Input Method */,
 				D3FC32360DD1B121006A3F5A /* Preferences */,
@@ -965,6 +975,24 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 0460;
+				TargetAttributes = {
+					D3FC32200DD1B09C006A3F5A = {
+						DevelopmentTeam = VG2YYSKSHY;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
+					};
+					D3FC322F0DD1B102006A3F5A = {
+						DevelopmentTeam = VG2YYSKSHY;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
+					};
+				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "AquaSKK" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1192,6 +1220,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libstdc++";
+				CODE_SIGN_ENTITLEMENTS = AquaSKK/AquaSKK.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -1217,6 +1248,7 @@
 					AppKit,
 				);
 				PRODUCT_NAME = AquaSKK;
+				PROVISIONING_PROFILE = "";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
@@ -1230,6 +1262,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libstdc++";
+				CODE_SIGN_ENTITLEMENTS = AquaSKK/AquaSKK.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1252,6 +1287,7 @@
 					AppKit,
 				);
 				PRODUCT_NAME = AquaSKK;
+				PROVISIONING_PROFILE = "";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
@@ -1265,6 +1301,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libstdc++";
+				CODE_SIGN_ENTITLEMENTS = AquaSKKPreferences.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -1282,6 +1321,7 @@
 					AppKit,
 				);
 				PRODUCT_NAME = AquaSKKPreferences;
+				PROVISIONING_PROFILE = "";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
@@ -1294,6 +1334,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libstdc++";
+				CODE_SIGN_ENTITLEMENTS = AquaSKKPreferences.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1310,6 +1353,7 @@
 					AppKit,
 				);
 				PRODUCT_NAME = AquaSKKPreferences;
+				PROVISIONING_PROFILE = "";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
