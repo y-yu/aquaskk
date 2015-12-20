@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		130B7D651C269A0C0081E7BD /* SKKCloudUserDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 130B7D631C269A0C0081E7BD /* SKKCloudUserDictionary.cpp */; };
 		131E98E31BE4EE4600E898E6 /* act.conf in Resources */ = {isa = PBXBuildFile; fileRef = 131E98E21BE4EE4600E898E6 /* act.conf */; };
 		1326BC8D1BE7974B008F1D05 /* azik.conf in Resources */ = {isa = PBXBuildFile; fileRef = 1326BC8C1BE7974B008F1D05 /* azik.conf */; };
 		138EA4E61BE85B2400E8A70E /* azik_us.rule in Resources */ = {isa = PBXBuildFile; fileRef = 138EA4E51BE85B2400E8A70E /* azik_us.rule */; };
@@ -154,6 +155,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		130B7D631C269A0C0081E7BD /* SKKCloudUserDictionary.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SKKCloudUserDictionary.cpp; sourceTree = "<group>"; };
+		130B7D641C269A0C0081E7BD /* SKKCloudUserDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKKCloudUserDictionary.h; sourceTree = "<group>"; };
+		130B7D671C269B6E0081E7BD /* SKKSyncStrategy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKKSyncStrategy.h; sourceTree = "<group>"; };
 		131E98E21BE4EE4600E898E6 /* act.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = act.conf; sourceTree = "<group>"; };
 		1326BC8C1BE7974B008F1D05 /* azik.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = azik.conf; sourceTree = "<group>"; };
 		138EA4E51BE85B2400E8A70E /* azik_us.rule */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = azik_us.rule; sourceTree = "<group>"; };
@@ -419,6 +423,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		130B7D661C269A220081E7BD /* user-dictionary */ = {
+			isa = PBXGroup;
+			children = (
+				D353BC000E175500004C68A6 /* SKKUserDictionary.h */,
+				130B7D641C269A0C0081E7BD /* SKKCloudUserDictionary.h */,
+				130B7D631C269A0C0081E7BD /* SKKCloudUserDictionary.cpp */,
+				D32ABEDD11BB5BFD00F86B42 /* SKKLocalUserDictionary.h */,
+				D32ABEDC11BB5BFD00F86B42 /* SKKLocalUserDictionary.cpp */,
+				D3E29EBB12D359FE00C055F9 /* SKKDistributedUserDictionary.h */,
+				D3E29EBA12D359FE00C055F9 /* SKKDistributedUserDictionary.cpp */,
+			);
+			name = "user-dictionary";
+			sourceTree = "<group>";
+		};
 		29B97314FDCFA39411CA2CEA /* aquaskk */ = {
 			isa = PBXGroup;
 			children = (
@@ -441,6 +459,7 @@
 				D396A06E0EA0C8B700B6B9D5 /* SKKMessenger.h */,
 				D353BBDE0E1754E3004C68A6 /* SKKClipboard.h */,
 				D3CB86750EB47E790069107D /* SKKAnnotator.h */,
+				130B7D671C269B6E0081E7BD /* SKKSyncStrategy.h */,
 				D376C0FA0EC728C7001B2CE9 /* SKKDynamicCompletor.h */,
 				D302E2F70EA068EF00E3321E /* SKKInputModeListener.h */,
 			);
@@ -497,16 +516,12 @@
 		D353BBF10E175500004C68A6 /* dictionary */ = {
 			isa = PBXGroup;
 			children = (
+				130B7D661C269A220081E7BD /* user-dictionary */,
 				D353BBF40E175500004C68A6 /* SKKBaseDictionary.h */,
 				D353BBF30E175500004C68A6 /* SKKAutoUpdateDictionary.h */,
 				D353BBF60E175500004C68A6 /* SKKCommonDictionary.h */,
 				D353BBFE0E175500004C68A6 /* SKKProxyDictionary.h */,
 				D353BBFD0E175500004C68A6 /* SKKProxyDictionary.cpp */,
-				D353BC000E175500004C68A6 /* SKKUserDictionary.h */,
-				D32ABEDD11BB5BFD00F86B42 /* SKKLocalUserDictionary.h */,
-				D32ABEDC11BB5BFD00F86B42 /* SKKLocalUserDictionary.cpp */,
-				D3E29EBB12D359FE00C055F9 /* SKKDistributedUserDictionary.h */,
-				D3E29EBA12D359FE00C055F9 /* SKKDistributedUserDictionary.cpp */,
 				D3FF02C8100A2C9D0028EDE6 /* SKKGadgetDictionary.h */,
 				D3FF02C7100A2C9D0028EDE6 /* SKKGadgetDictionary.cpp */,
 				D3AD8DA31119C6A800809EA2 /* SKKCompletionHelper.h */,
@@ -1044,6 +1059,7 @@
 				D353BD0E0E175501004C68A6 /* SKKRegisterEditor.cpp in Sources */,
 				D353BD0F0E175501004C68A6 /* SKKTextBuffer.cpp in Sources */,
 				D353BD100E175501004C68A6 /* SKKCandidate.cpp in Sources */,
+				130B7D651C269A0C0081E7BD /* SKKCloudUserDictionary.cpp in Sources */,
 				D353BD110E175501004C68A6 /* SKKEntry.cpp in Sources */,
 				D353BD120E175501004C68A6 /* SKKKeymap.cpp in Sources */,
 				D353BD130E175501004C68A6 /* SKKKeymapEntry.cpp in Sources */,

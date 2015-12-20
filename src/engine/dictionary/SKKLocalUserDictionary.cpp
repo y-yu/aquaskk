@@ -207,6 +207,10 @@ void SKKLocalUserDictionary::SetPrivateMode(bool flag) {
     }
 }
 
+SKKDictionaryFile& SKKLocalUserDictionary::GetDicionaryFile() {
+    return file_;
+}
+
 // ======================================================================
 // private method
 // ======================================================================
