@@ -12,6 +12,7 @@
 		130B7D6D1C26B7950081E7BD /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 130B7D6C1C26B7950081E7BD /* CloudKit.framework */; };
 		130B7D6F1C26B8F90081E7BD /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 130B7D6C1C26B7950081E7BD /* CloudKit.framework */; };
 		130B7D711C26BA770081E7BD /* CloudKitDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 130B7D701C26BA770081E7BD /* CloudKitDatabase.m */; };
+		130B7D761C26CFE80081E7BD /* SKKDictionaryEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 130B7D751C26CFE80081E7BD /* SKKDictionaryEntry.cpp */; };
 		131E98E31BE4EE4600E898E6 /* act.conf in Resources */ = {isa = PBXBuildFile; fileRef = 131E98E21BE4EE4600E898E6 /* act.conf */; };
 		1326BC8D1BE7974B008F1D05 /* azik.conf in Resources */ = {isa = PBXBuildFile; fileRef = 1326BC8C1BE7974B008F1D05 /* azik.conf */; };
 		138EA4E61BE85B2400E8A70E /* azik_us.rule in Resources */ = {isa = PBXBuildFile; fileRef = 138EA4E51BE85B2400E8A70E /* azik_us.rule */; };
@@ -169,6 +170,8 @@
 		130B7D6E1C26B8EC0081E7BD /* AquaSKKPreferences.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = AquaSKKPreferences.entitlements; sourceTree = "<group>"; };
 		130B7D701C26BA770081E7BD /* CloudKitDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudKitDatabase.m; sourceTree = "<group>"; };
 		130B7D721C26BA800081E7BD /* CloudKitDatabase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CloudKitDatabase.h; sourceTree = "<group>"; };
+		130B7D741C26CD9A0081E7BD /* SKKDictionaryEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKKDictionaryEntry.h; sourceTree = "<group>"; };
+		130B7D751C26CFE80081E7BD /* SKKDictionaryEntry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SKKDictionaryEntry.cpp; sourceTree = "<group>"; };
 		131E98E21BE4EE4600E898E6 /* act.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = act.conf; sourceTree = "<group>"; };
 		1326BC8C1BE7974B008F1D05 /* azik.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = azik.conf; sourceTree = "<group>"; };
 		138EA4E51BE85B2400E8A70E /* azik_us.rule */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = azik_us.rule; sourceTree = "<group>"; };
@@ -553,6 +556,8 @@
 				D3FF02C7100A2C9D0028EDE6 /* SKKGadgetDictionary.cpp */,
 				D3AD8DA31119C6A800809EA2 /* SKKCompletionHelper.h */,
 				D3AD8DA41119C6A800809EA2 /* SKKDictionaryTemplate.h */,
+				130B7D741C26CD9A0081E7BD /* SKKDictionaryEntry.h */,
+				130B7D751C26CFE80081E7BD /* SKKDictionaryEntry.cpp */,
 				D353BBF80E175500004C68A6 /* SKKDictionaryFile.h */,
 				D353BBF70E175500004C68A6 /* SKKDictionaryFile.cpp */,
 				D34531A510D14AF500D4EF49 /* SKKDictionaryLoader.h */,
@@ -1089,6 +1094,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				130B7D761C26CFE80081E7BD /* SKKDictionaryEntry.cpp in Sources */,
 				D353BCFB0E175501004C68A6 /* SKKBackEnd.cpp in Sources */,
 				D353BCFC0E175501004C68A6 /* SKKDictionaryCache.cpp in Sources */,
 				D353BCFD0E175501004C68A6 /* SKKDictionaryFactory.cpp in Sources */,
