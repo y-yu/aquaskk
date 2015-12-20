@@ -11,6 +11,7 @@
 		130B7D6A1C269E6B0081E7BD /* MacCloudStrategy.mm in Sources */ = {isa = PBXBuildFile; fileRef = 130B7D691C269E6B0081E7BD /* MacCloudStrategy.mm */; };
 		130B7D6D1C26B7950081E7BD /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 130B7D6C1C26B7950081E7BD /* CloudKit.framework */; };
 		130B7D6F1C26B8F90081E7BD /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 130B7D6C1C26B7950081E7BD /* CloudKit.framework */; };
+		130B7D711C26BA770081E7BD /* CloudKitDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 130B7D701C26BA770081E7BD /* CloudKitDatabase.m */; };
 		131E98E31BE4EE4600E898E6 /* act.conf in Resources */ = {isa = PBXBuildFile; fileRef = 131E98E21BE4EE4600E898E6 /* act.conf */; };
 		1326BC8D1BE7974B008F1D05 /* azik.conf in Resources */ = {isa = PBXBuildFile; fileRef = 1326BC8C1BE7974B008F1D05 /* azik.conf */; };
 		138EA4E61BE85B2400E8A70E /* azik_us.rule in Resources */ = {isa = PBXBuildFile; fileRef = 138EA4E51BE85B2400E8A70E /* azik_us.rule */; };
@@ -166,6 +167,8 @@
 		130B7D6B1C26B78B0081E7BD /* AquaSKK.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = AquaSKK.entitlements; path = AquaSKK/AquaSKK.entitlements; sourceTree = "<group>"; };
 		130B7D6C1C26B7950081E7BD /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		130B7D6E1C26B8EC0081E7BD /* AquaSKKPreferences.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = AquaSKKPreferences.entitlements; sourceTree = "<group>"; };
+		130B7D701C26BA770081E7BD /* CloudKitDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudKitDatabase.m; sourceTree = "<group>"; };
+		130B7D721C26BA800081E7BD /* CloudKitDatabase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CloudKitDatabase.h; sourceTree = "<group>"; };
 		131E98E21BE4EE4600E898E6 /* act.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = act.conf; sourceTree = "<group>"; };
 		1326BC8C1BE7974B008F1D05 /* azik.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = azik.conf; sourceTree = "<group>"; };
 		138EA4E51BE85B2400E8A70E /* azik_us.rule */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = azik_us.rule; sourceTree = "<group>"; };
@@ -447,6 +450,17 @@
 			name = "user-dictionary";
 			sourceTree = "<group>";
 		};
+		130B7D731C26BA850081E7BD /* CloudKit */ = {
+			isa = PBXGroup;
+			children = (
+				130B7D681C269DFD0081E7BD /* MacCloudStrategy.h */,
+				130B7D691C269E6B0081E7BD /* MacCloudStrategy.mm */,
+				130B7D721C26BA800081E7BD /* CloudKitDatabase.h */,
+				130B7D701C26BA770081E7BD /* CloudKitDatabase.m */,
+			);
+			name = CloudKit;
+			sourceTree = "<group>";
+		};
 		29B97314FDCFA39411CA2CEA /* aquaskk */ = {
 			isa = PBXGroup;
 			children = (
@@ -718,8 +732,7 @@
 				D353BDD60E175513004C68A6 /* MacInputModeWindow.mm */,
 				D353BDD70E175513004C68A6 /* MacInputSessionParameter.h */,
 				D353BDD80E175513004C68A6 /* MacInputSessionParameter.mm */,
-				130B7D681C269DFD0081E7BD /* MacCloudStrategy.h */,
-				130B7D691C269E6B0081E7BD /* MacCloudStrategy.mm */,
+				130B7D731C26BA850081E7BD /* CloudKit */,
 				D353BDDB0E175513004C68A6 /* ObjCUtil.h */,
 				D353BDDC0E175513004C68A6 /* SKKConstVars.h */,
 				D353BDDD0E175513004C68A6 /* SKKConstVars.mm */,
@@ -1141,6 +1154,7 @@
 				D3046C2C101F3228008A6F47 /* SKKLayoutManager.mm in Sources */,
 				D3D549BF1024904000622CB2 /* SKKInputModeSelector.cpp in Sources */,
 				D304587A102D3E590055E32F /* SKKInputEnvironment.cpp in Sources */,
+				130B7D711C26BA770081E7BD /* CloudKitDatabase.m in Sources */,
 				D3790F431031B2F1007798E0 /* SKKOutputBuffer.cpp in Sources */,
 				D3790F441031B2F1007798E0 /* SKKUndoContext.cpp in Sources */,
 				D38FB82C1032F33100048A30 /* MacConfig.mm in Sources */,
