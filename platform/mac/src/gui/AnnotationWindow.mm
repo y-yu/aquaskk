@@ -44,10 +44,6 @@
 }
 
 - (void)dealloc {
-    [window_ release];
-    [view_ release];
-
-    [super dealloc];
 }
 
 - (NSWindow*)window {

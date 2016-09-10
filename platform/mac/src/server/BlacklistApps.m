@@ -31,9 +31,7 @@
 static BlacklistApps* sharedData_ = nil;
 
 - (void)load:(NSArray*)xs {
-    id old = blacklistApps_;
-    blacklistApps_ = [xs retain];
-    [old release];
+    blacklistApps_ = xs;
 }
 
 - (BOOL)isInsertEmptyString:(NSBundle *)bundle {

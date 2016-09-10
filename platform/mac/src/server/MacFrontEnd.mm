@@ -51,8 +51,6 @@ void MacFrontEnd::ComposeString(const std::string& str, int cursorOffset) {
     }
 
     [client_ setMarkedText:marked selectionRange:cursorPos replacementRange:notFound()];
-
-    [marked release];
 }
 
 void MacFrontEnd::ComposeString(const std::string& str, int candidateStart, int candidateLength) {
@@ -67,8 +65,6 @@ void MacFrontEnd::ComposeString(const std::string& str, int candidateStart, int 
                    value:[NSNumber numberWithInt:NSUnderlineStyleThick] range:segment];
 
     [client_ setMarkedText:marked selectionRange:cursorPos replacementRange:notFound()];
-
-    [marked release];
 }
 
 std::string MacFrontEnd::SelectedString() {

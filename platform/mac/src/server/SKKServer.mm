@@ -131,12 +131,10 @@ static void terminate(int) {
     NSLog(@"loading UserDefaults ...");
 
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary* prefs = [[NSDictionary dictionaryWithContentsOfFile:SKKFilePaths::UserDefaults] retain];
+    NSDictionary* prefs = [NSDictionary dictionaryWithContentsOfFile:SKKFilePaths::UserDefaults];
 
     // force update userdeafults
     [defaults setPersistentDomain:prefs forName:[[NSBundle mainBundle] bundleIdentifier]];
-
-    [prefs release];
 
     if([defaults boolForKey:SKKUserDefaultKeys::enable_skkserv] == YES) {
         skkserv_ = new skkserv([defaults integerForKey:SKKUserDefaultKeys::skkserv_port],
@@ -277,7 +275,7 @@ static void terminate(int) {
         [types addObject:entity];
     }
 
-    return [types autorelease];
+    return types;
 }
 
 @end
@@ -364,8 +362,6 @@ static void terminate(int) {
     }
 
     [[InputModeWindow sharedWindow] setModeIcons:icons];
-
-    [icons release];
 }
 
 - (BOOL)fileExistsAtPath:(NSString*)path {

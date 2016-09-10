@@ -27,15 +27,11 @@
 
 namespace ObjC {
     class RAIIPool {
-        NSAutoreleasePool* pool_;
-
     public:
         RAIIPool() {
-            pool_ = [[NSAutoreleasePool alloc] init];
         }
 
         ~RAIIPool() {
-            if(pool_) [pool_ release];
         }
     };
 }

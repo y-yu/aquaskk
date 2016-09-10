@@ -41,14 +41,6 @@
     return self;
 }
 
-- (void)dealloc {
-    [candidateCells_ release];
-    [indicator_ release];
-    if(cellFont_) [cellFont_ release];
-
-    [super dealloc];
-}
-
 - (void)drawRect:(NSRect)rect {
     int margin = [CandidateView cellSpacing];
 
@@ -77,9 +69,6 @@
 }
 
 - (void)prepareWithFont:(NSFont*)newFont labels:(NSString*)newLabels {
-    [newFont retain];
-
-    if(cellFont_) [cellFont_ release];
     cellFont_ = newFont;
 
     labels_ = newLabels;
@@ -97,8 +86,6 @@
     result.width += [CandidateView cellSpacing] * 2;
     result.height += [CandidateView cellSpacing] * 2;
 
-    [cell release];
-
     return result;
 }
 
@@ -110,7 +97,6 @@
 
 	[tmp setString:[candidates objectAtIndex:index] withLabel:[labels_ characterAtIndex:index]];
 	[candidateCells_ addObject:tmp];
-	[tmp release];
     }
 
     selected_ = cursor;

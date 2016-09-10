@@ -49,27 +49,25 @@ namespace {
     // プロセス ID に関連したウィンドウ矩形群の取得
     CGRectContainer CreateWindowBoundsListOf(int pid) {
         CGRectContainer result;
-        NSArray* array = (NSArray*)CGWindowListCopyWindowInfo(kCGWindowListOptionOnScreenOnly,
-                                                              kCGNullWindowID);
+        NSArray* array = (NSArray*)CFBridgingRelease(CGWindowListCopyWindowInfo(kCGWindowListOptionOnScreenOnly,
+                                                                                kCGNullWindowID));
         NSEnumerator* enumerator = [array objectEnumerator];
 
         while(NSDictionary* window = [enumerator nextObject]) {
             // 引数のプロセス ID でフィルタ
-            NSNumber* owner = [window objectForKey:(NSString*)kCGWindowOwnerPID];
+            NSNumber* owner = [window objectForKey:(__bridge NSString*)kCGWindowOwnerPID];
             if([owner intValue] != pid) continue;
 
             // デスクトップ全面を覆う Finder のウィンドウは除外
-            NSNumber* level = [window objectForKey:(NSString*)kCGWindowLayer];
+            NSNumber* level = [window objectForKey:(__bridge NSString*)kCGWindowLayer];
             if([level intValue] == kCGMinimumWindowLevel) continue;
 
             CGRect rect;
-            NSDictionary* bounds = [window objectForKey:(NSString*)kCGWindowBounds];
+            NSDictionary* bounds = [window objectForKey:(__bridge NSString*)kCGWindowBounds];
             if(CGRectMakeWithDictionaryRepresentation((CFDictionaryRef)bounds, &rect)) {
                 result.push_back(rect);
             }
         }
-
-        [array release];
 
         return result;
     }
@@ -124,7 +122,6 @@ namespace {
 
 - (void)dealloc {
     [self cancel];
-    [super dealloc];
 }
 
 - (void)changeMode:(SKKInputMode)mode {
@@ -152,7 +149,6 @@ MacInputModeWindow::MacInputModeWindow(SKKLayoutManager* layout) {
 }
 
 MacInputModeWindow::~MacInputModeWindow() {
-    [tips_ release];
 }
 
 void MacInputModeWindow::SelectInputMode(SKKInputMode mode) {
