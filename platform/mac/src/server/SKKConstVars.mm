@@ -21,7 +21,6 @@
 */
 
 #include "SKKConstVars.h"
-#include "ObjCUtil.h"
 
 #define DECLARE_NSStringKey(key) NSString* key = @ #key
 
@@ -88,14 +87,12 @@ namespace SKKDictionaryTypeKeys {
 
 namespace SKKFilePaths {
     static NSString* pathForSystemResource() {
-        ObjC::RAIIPool pool;
         static NSString* path = @"/Library/Input Methods/AquaSKK.app/Contents/Resources";
 
         return path;
     }
     
     static NSString* pathForApplicationSupport() {
-        ObjC::RAIIPool pool;
         static NSString* path = [NSString stringWithFormat:@"%@/Library/Application Support/AquaSKK",
                                            NSHomeDirectory()];
 
@@ -103,7 +100,6 @@ namespace SKKFilePaths {
     }
 
     static NSString* pathForBlacklistApps() {
-        ObjC::RAIIPool pool;
         static NSString* path = [NSString stringWithFormat:@"%@/BlacklistApps.plist",
                                   pathForApplicationSupport()];
 
@@ -111,7 +107,6 @@ namespace SKKFilePaths {
     }
 
     static NSString* pathForDictionarySet() {
-        ObjC::RAIIPool pool;
         static NSString* path = [NSString stringWithFormat:@"%@/DictionarySet.plist",
                                  pathForApplicationSupport()];
 
@@ -119,7 +114,6 @@ namespace SKKFilePaths {
     }
 
     static NSString* pathForUserDefaults() {
-        ObjC::RAIIPool pool;
         const char* plist = "Library/Preferences/jp.sourceforge.inputmethod.aquaskk.plist";
         static NSString* path = [NSString stringWithFormat:@"%@/%s",
                                            NSHomeDirectory(), plist];

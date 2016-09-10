@@ -24,13 +24,10 @@
 #include "MessengerWindow.h"
 #include "SKKConstVars.h"
 #include "SKKFrontEnd.h"
-#include "ObjCUtil.h"
 
 MacMessenger::MacMessenger(SKKLayoutManager* layout) : layout_(layout) {}
 
 void MacMessenger::SendMessage(const std::string& msg) {
-    ObjC::RAIIPool pool;
-
     MessengerWindow* window = [MessengerWindow sharedWindow];
 
     NSString* str = [NSString stringWithUTF8String:msg.c_str()];
