@@ -156,6 +156,11 @@ State SKKState::KanaInput(const Event& event) {
 	    return State::Forward(&SKKState::KanaEntry);
 	}
 
+        if(param.codepoint) {
+            editor_->HandleCodepoint(param.code);
+            return 0;
+        }
+
         // キー修飾がない場合のみローマ字かな変換を実施する
         if(param.IsInputChars()) {
             editor_->HandleChar(param.code, param.IsDirect());
@@ -271,6 +276,11 @@ State SKKState::LatinInput(const Event& event) {
 	return State::Transition(&SKKState::Hirakana);
 
     case SKK_CHAR:
+        if(param.codepoint) {
+            editor_->HandleCodepoint(param.code);
+            return 0;
+        }
+
         if(param.IsInputChars()) {
             if(param.option & CapsLock) {
                 param.code = std::toupper(param.code);

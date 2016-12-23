@@ -51,6 +51,7 @@ class SKKInputEngine : public SKKInputQueueObserver,
     SKKInputQueueObserver::State inputState_;
 
     std::string word_;
+    unsigned int codepoint_;
 
     SKKComposingEditor composingEditor_;
     SKKOkuriEditor okuriEditor_;
@@ -104,6 +105,7 @@ public:
 
     // 入力
     void HandleChar(char code, bool direct);
+    void HandleCodepoint(char code);
     void HandleBackSpace();
     void HandleDelete();
     void HandleCursorLeft();

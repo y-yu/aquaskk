@@ -28,6 +28,56 @@
 #include <iostream>
 #include <cctype>
 
+namespace {
+    std::string codepoint(unsigned int cp) {
+
+        if (cp < 0x80) {
+            char p[] = { (char)cp, '\0' };
+            return  std::string(p);
+        } else if (cp < 0x800) {
+            char p[] = {
+                char(cp >> 6 | 0x1C0),
+                char((cp & 0x3F) | 0x80),
+                '\0'
+            };
+            return  std::string(p);
+        } else if (cp < 0xD800 || (0xDFFF < cp && cp < 0x10000)) {
+            char p[] = {
+                char(cp >> 12 | 0xE0),
+                char((cp >> 6 & 0x3F) | 0x80),
+                char((cp & 0x3F) | 0x80),
+                '\0'
+            };
+            return std::string(p);
+        } else if (cp < 0x110000) {
+            char p[] = {
+                char(cp >> 18 | 0xF0),
+                char((cp >> 12 & 0x3F) | 0x80),
+                char((cp >> 6 & 0x3F) | 0x80),
+                char((cp & 0x3F) | 0x80),
+                '\0'
+            };
+            return std::string(p);
+        } else {
+            char p[] = { (char)0xEF, (char)0xBF, (char)0xBD };
+            return std::string(p);
+        }
+    }
+
+    int hex(char c) {
+        if('0' <= c && c <= '9') {
+            return c - '0';
+        }
+        if('a' <= c && c <= 'f') {
+            return c - 'a' + 0x0a;
+        }
+        if('A' <= c && c <= 'F') {
+            return c - 'A' + 0x0a;
+        }
+        return 0;
+    }
+}
+
 // ----------------------------------------------------------------------
 
 // RAII による SKKInputContext の同期管理
@@ -118,7 +168,17 @@ void SKKInputEngine::SetStateRegistration() {
 }
 
 void SKKInputEngine::HandleChar(char code, bool direct) {
+    codepoint_ = 0;
     inputQueue_.AddChar(code, direct);
+}
+
+void SKKInputEngine::HandleCodepoint(char code) {
+    if(code == 'u') {
+        context_->output.Fix(codepoint(codepoint_));
+        codepoint_ = 0;
+    } else {
+        codepoint_ = codepoint_ << 4 | hex(code);
+    }
 }
 
 void SKKInputEngine::HandleBackSpace() {

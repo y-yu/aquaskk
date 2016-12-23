@@ -80,6 +80,8 @@ SKKEvent SKKPreProcessor::Execute(const NSEvent* event) {
         result.option |= CapsLock;
     }
 
+    result.codepoint = ([event modifierFlags] & NSControlKeyMask) && ([event modifierFlags] & NSAlternateKeyMask);
+
 #ifdef SKK_DEBUG
     NSLog(@"%@", [event description]);
     NSLog(@"%s", result.dump().c_str());

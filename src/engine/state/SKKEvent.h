@@ -89,9 +89,10 @@ public:
     unsigned char code;         // 文字そのもの
     int attribute;              // SKK_CHAR 属性
     int option;                 // 処理オプション
+    bool codepoint;
 
-    SKKEvent() : id(0), code(0), attribute(0), option(0) {}
-    SKKEvent(int e, unsigned char c, int a = None) : id(e), code(c), attribute(a), option(0) {}
+    SKKEvent() : id(0), code(0), attribute(0), option(0), codepoint(false) {}
+    SKKEvent(int e, unsigned char c, int a = None) : id(e), code(c), attribute(a), option(0), codepoint(false) {}
 
     // SKK_CHAR 属性問い合わせ
     bool IsDirect() const                       { return attribute & Direct; }
