@@ -1,11 +1,38 @@
 #include <cassert>
 #include <sys/stat.h>
 #include "SKKAutoUpdateDictionary.h"
+#include "SKKDictionaryHttpClient.h"
+
+class SKKDictionaryHttpClientTestImpl : public SKKDictionaryHttpClient {
+public:
+    virtual void Initialize(std::string addr, std::string url, std::string path, std::string tmp_path) { }
+  virtual bool request() {
+    return true;
+  }
+  virtual int content_length() {
+    return 1;
+  }
+  virtual int file_size(std::string& path) const {
+    return 1;
+  }
+  virtual bool download(int length) {
+    return true;
+  }
+};
+
+class SKKHttpDictionaryLoaderTestImpl : public SKKHttpDictionaryLoader {
+public:
+    void initialize_client() {
+        client_ = new SKKDictionaryHttpClientTestImpl();
+    }
+};
+
+typedef SKKDictionaryTemplate<SKKHttpDictionaryLoaderTestImpl> SKKAutoUpdateDictionaryTest;
 
 int main() {
     const char* path1 = "SKK-JISYO.S1";
     const char* path2 = "SKK-JISYO.S2";
-    SKKAutoUpdateDictionary dict1, dict2;
+    SKKAutoUpdateDictionaryTest dict1, dict2;
     SKKCandidateSuite suite;
 
     remove(path1);

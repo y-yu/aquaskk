@@ -24,25 +24,19 @@
 #define SKKHttpDictionaryLoader_h
 
 #include "SKKDictionaryLoader.h"
-#include "socketutil.h"
+#include "SKKDictionaryHttpClient.h"
 
 class SKKHttpDictionaryLoader : public SKKDictionaryLoader {
-    net::socket::endpoint remote_;
-    std::string url_;
     std::string path_;
-    std::string tmp_path_;
 
     virtual bool NeedsUpdate();
     virtual const std::string& FilePath() const;
+    virtual void initialize_client();
 
-    bool request(net::socket::tcpstream& http);
-    int content_length(net::socket::tcpstream& http);
-    int file_size(const std::string& path) const;
-    bool download(net::socket::tcpstream& http, int length);
-
+protected:
+    SKKDictionaryHttpClient* client_;
+    
 public:
-    SKKHttpDictionaryLoader();
-
     //
     // 引数の形式は "host:port url path" とする。":port" は省略化。
     //

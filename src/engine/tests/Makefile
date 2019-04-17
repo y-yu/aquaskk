@@ -15,7 +15,7 @@ LIB	= libskk.a
 
 DICT_OBJS = SKKLocalUserDictionary.o SKKDistributedUserDictionary.o \
 	SKKProxyDictionary.o SKKGadgetDictionary.o \
-	SKKHttpDictionaryLoader.o
+	SKKHttpDictionaryLoader.o SKKDictionaryHttpClient.o
 
 BACKEND_OBJS = SKKBackEnd.o SKKDictionaryCache.o SKKDictionaryFactory.o \
 	SKKNumericConverter.o
