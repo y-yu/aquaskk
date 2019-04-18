@@ -18,6 +18,7 @@
 		13E607841C2693A300FD8FB9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13E607831C2693A300FD8FB9 /* Images.xcassets */; };
 		13F0D7491DA9CB5B00684A21 /* karabiner.xml in Resources */ = {isa = PBXBuildFile; fileRef = 13F0D7471DA9CB5B00684A21 /* karabiner.xml */; };
 		13F715941BAD8AFA00F93C56 /* yakumono-ippai.rule in Resources */ = {isa = PBXBuildFile; fileRef = 13F715931BAD8AFA00F93C56 /* yakumono-ippai.rule */; };
+		1D555F79AB63910D0CC41B6A /* SKKDictionaryHttpClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1D5551E3CE092674B1D76B48 /* SKKDictionaryHttpClient.cpp */; };
 		D304587A102D3E590055E32F /* SKKInputEnvironment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3045878102D3E590055E32F /* SKKInputEnvironment.cpp */; };
 		D3046C2C101F3228008A6F47 /* SKKLayoutManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = D3046C2B101F3228008A6F47 /* SKKLayoutManager.mm */; };
 		D30996690E4C80EA00B2F24E /* SKKRecursiveEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D30996670E4C80EA00B2F24E /* SKKRecursiveEditor.cpp */; };
@@ -172,6 +173,8 @@
 		13E607831C2693A300FD8FB9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = AquaSKK/Images.xcassets; sourceTree = "<group>"; };
 		13F0D7471DA9CB5B00684A21 /* karabiner.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = karabiner.xml; sourceTree = "<group>"; };
 		13F715931BAD8AFA00F93C56 /* yakumono-ippai.rule */ = {isa = PBXFileReference; fileEncoding = 3; lastKnownFileType = text; path = "yakumono-ippai.rule"; sourceTree = "<group>"; };
+		1D5551E3CE092674B1D76B48 /* SKKDictionaryHttpClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SKKDictionaryHttpClient.cpp; sourceTree = "<group>"; };
+		1D555F9C51F723435E388311 /* SKKDictionaryHttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKKDictionaryHttpClient.h; sourceTree = "<group>"; };
 		D302E2F70EA068EF00E3321E /* SKKInputModeListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKKInputModeListener.h; sourceTree = "<group>"; };
 		D3045878102D3E590055E32F /* SKKInputEnvironment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SKKInputEnvironment.cpp; sourceTree = "<group>"; };
 		D3045879102D3E590055E32F /* SKKInputEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKKInputEnvironment.h; sourceTree = "<group>"; };
@@ -440,6 +443,13 @@
 			path = ../../../data/others;
 			sourceTree = "<group>";
 		};
+		1D5558D391D557981BA711D2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		29B97314FDCFA39411CA2CEA /* aquaskk */ = {
 			isa = PBXGroup;
 			children = (
@@ -447,6 +457,7 @@
 				D3FC32270DD1B0D2006A3F5A /* Input Method */,
 				D3FC32360DD1B121006A3F5A /* Preferences */,
 				D3FC322B0DD1B0ED006A3F5A /* Product */,
+				1D5558D391D557981BA711D2 /* Products */,
 			);
 			name = aquaskk;
 			sourceTree = "<group>";
@@ -540,6 +551,8 @@
 				D3AD8DA71119C6A800809EA2 /* SKKLocalDictionaryLoader.h */,
 				D3AD8DA51119C6A800809EA2 /* SKKHttpDictionaryLoader.cpp */,
 				D3AD8DA61119C6A800809EA2 /* SKKHttpDictionaryLoader.h */,
+				1D5551E3CE092674B1D76B48 /* SKKDictionaryHttpClient.cpp */,
+				1D555F9C51F723435E388311 /* SKKDictionaryHttpClient.h */,
 			);
 			path = dictionary;
 			sourceTree = "<group>";
@@ -1129,6 +1142,7 @@
 				D3AD8DA81119C6A800809EA2 /* SKKHttpDictionaryLoader.cpp in Sources */,
 				D32ABEDE11BB5BFD00F86B42 /* SKKLocalUserDictionary.cpp in Sources */,
 				D3E29EBC12D359FE00C055F9 /* SKKDistributedUserDictionary.cpp in Sources */,
+				1D555F79AB63910D0CC41B6A /* SKKDictionaryHttpClient.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
